@@ -1,1 +1,1 @@
-git cz --hook
+exec < /dev/tty && git cz --hook || true
