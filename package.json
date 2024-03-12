@@ -1,0 +1,35 @@
+{
+  "name": "simple-deepinfra",
+  "version": "1.0.0",
+  "description": "Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts"
+  },
+  "keywords": [
+    "llm",
+    "deepinfra",
+    "api",
+    "wrapper",
+    "typesript",
+    "large language model",
+    "deep learning",
+    "machine learning",
+    "artificial intelligence",
+    "ai"
+  ],
+  "author": "Oguz Vuruskaner <ovuruska@gmail.com> (https://www.oguzvuruskaner.com)",
+  "license": "Unlicense",
+  "dependencies": {
+    "@swc/core": "^1.4.6",
+    "@swc/wasm": "^1.4.6",
+    "axios": "^1.6.7"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.2"
+  }
+}
