@@ -1,1 +1,5 @@
+npm run lint
+npm run build
+npm run test
+
 exec < /dev/tty && git cz --hook || true

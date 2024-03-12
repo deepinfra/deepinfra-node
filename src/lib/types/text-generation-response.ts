@@ -1,3 +1,5 @@
+
+
 export interface TextGenerationResponse {
   request_id: string;
   inference_status: {
