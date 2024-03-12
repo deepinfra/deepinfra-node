@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts"
+    "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts",
+    "prepare": "husky"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "keywords": [
     "llm",
@@ -28,6 +34,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
+    "husky": "^9.0.11",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.2"
