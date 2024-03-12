@@ -6,7 +6,7 @@ export class DolphinModelService {
 
   constructor(private readonly authToken: string) {}
 
-  public async generateText(input: string, stream: boolean = false): Promise<TextGenerationResponse> {
+  public async generate(input: string, stream: boolean = false): Promise<TextGenerationResponse> {
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.authToken}`,
