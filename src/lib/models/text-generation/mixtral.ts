@@ -1,4 +1,5 @@
-import axios, {AxiosError} from 'axios';
+import {AxiosError} from 'axios';
+import {BaseModel} from '@/lib/models/base';
 
 export interface MixtralTextGenerationInput {
   input: string;
@@ -32,9 +33,12 @@ interface TextGenerationOut {
   };
 }
 
-export class MixtralModelService {
+export class Mixtral extends BaseModel {
+  public static endpoint: string = 'https://api.deepinfra.com/v1/inference/mistralai/Mixtral-8x7B-Instruct-v0.1';
 
-  constructor(private readonly authToken: string) {}
+  constructor(authToken: string) {
+    super(Mixtral.endpoint, authToken);
+  }
 
 
   async generate(input: string, stream: boolean = false): Promise<TextGenerationOut> {
@@ -42,16 +46,11 @@ export class MixtralModelService {
       const body = {
         input, stream
       } as MixtralTextGenerationInput;
-      const response = await axios.post<TextGenerationOut>('https://api.deepinfra.com/v1/inference/mistralai/Mixtral-8x7B-Instruct-v0.1', body, {
-        headers: {
-          'Content-Type': 'application/json', 'Authorization': `Bearer ${this.authToken}`
-        }, timeout: 5000
-      });
+      const response = await this.client.post<TextGenerationOut>(body);
 
       return response.data;
     } catch (error) {
       if (error instanceof AxiosError) {
-        // Handle Axios errors
         if (error.response) {
           console.error('Response data:', error.response.data);
           console.error('Status:', error.response.status);
