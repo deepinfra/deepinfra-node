@@ -33,7 +33,7 @@ interface TextGenerationOut {
 }
 
 export class MixtralModelService {
-  async generateText(input: string, stream: boolean = false): Promise<TextGenerationOut> {
+  async generate(input: string, stream: boolean = false): Promise<TextGenerationOut> {
     try {
       const body = {
         input, stream
