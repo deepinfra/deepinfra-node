@@ -1,13 +1,13 @@
-![npm](https://img.shields.io/npm/v/simple-deepinfra)
-![npm](https://img.shields.io/npm/dt/simple-deepinfra)
-# simple-deepinfra
+![npm](https://img.shields.io/npm/v/deepinfra-api)
+![npm](https://img.shields.io/npm/dt/deepinfra-api)
+# deepinfra-api
 
 Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.
 
 ## Installation
 
 ```bash
-npm install simple-deepinfra
+npm install deepinfra-api
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ npm install simple-deepinfra
 
 The Dolphin 2.6 Mixtral 8x7b model, uncensored and trained on diverse datasets including coding, excels at programming tasks and general conversation.
 ```typescript
-import {Dolphin} from "simple-deepinfra";
+import {Dolphin} from "deepinfra-api";
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
 const dolphin = new Dolphin(apiKey);
 const input = "[INST] Say hi [/INST]";
@@ -30,7 +30,7 @@ console.log(text);
 The Mixtral mixture of expert model, developed by Mistral AI, is an innovative experimental machine learning model that leverages a mixture of 8 experts (MoE) within 7b models. Its release was facilitated via a torrent, and the model's implementation remains in the experimental phase.
 
 ```typescript
-import {Mixtral} from "simple-deepinfra";
+import {Mixtral} from "deepinfra-api";
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
 const mixtral = new Mixtral(apiKey);
 const input = "[INST] Say hi [/INST]";
@@ -41,7 +41,7 @@ console.log(text);
 
 ### Use gte-base
 ```typescript
-import {GteBase} from "simple-deepinfra";
+import {GteBase} from "deepinfra-api";
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
 const gteBase = new GteBase(apiKey);
 const inputs = [
@@ -57,7 +57,7 @@ console.log(embeddings);
 
 ### Use SDXL to generate images
 ```typescript
-import {Sdxl} from "simple-deepinfra";
+import {Sdxl} from "deepinfra-api";
 import axios from "axios";
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
 const misc = async () => {
