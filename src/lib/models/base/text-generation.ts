@@ -5,7 +5,7 @@ import {TextGenerationRequest} from '@/lib/types/text-generation/request';
 
 export abstract class TextGenerationBaseModel extends BaseModel {
 
-  constructor(protected endpoint: string, authToken: string) {
+  protected constructor(protected endpoint: string, authToken: string) {
     super(endpoint, authToken);
   }
 

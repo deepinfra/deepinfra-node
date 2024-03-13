@@ -55,6 +55,26 @@ console.log(embeddings);
 
 ```
 
+### Use SDXL to generate images
+```typescript
+import {Sdxl} from "simple-deepinfra";
+import axios from "axios";
+const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const misc = async () => {
+  const model = new Sdxl(apiKey);
+
+  const input = 'The quick brown fox jumps over the lazy dog with';
+  const response = await model.generate(input);
+  const {output} = response;
+  const image = output[0];
+
+  await axios.get(image, {responseType: 'arraybuffer'}).then((response) => {
+    fs.writeFileSync('image.png', response.data);
+  });
+
+};
+```
+
 
 ## Author
 

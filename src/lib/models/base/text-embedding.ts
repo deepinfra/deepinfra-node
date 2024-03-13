@@ -4,7 +4,7 @@ import { EmbeddingsResponse } from '@/lib/types/embeddings/response';
 
 export abstract class TextEmbeddingBaseModel extends BaseModel {
 
-  constructor(authToken: string, protected endpoint: string) {
+  protected constructor(authToken: string, protected endpoint: string) {
     super(endpoint, authToken);
   }
 

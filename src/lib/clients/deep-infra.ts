@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import {INITIAL_BACKOFF, MAX_RETRIES, SUBSEQUENT_BACKOFF} from '@/lib/constants/client';
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
+import {INITIAL_BACKOFF, MAX_RETRIES, SUBSEQUENT_BACKOFF, USER_AGENT} from '@/lib/constants/client';
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
@@ -20,8 +20,7 @@ export class DeepInfraClient {
 
   public async post<T>(data: object, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.authToken}`,
+      'Content-Type': 'application/json', 'Authorization': `Bearer ${this.authToken}`, 'User-Agent': USER_AGENT
     };
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
       try {
@@ -31,7 +30,7 @@ export class DeepInfraClient {
         if (attempt < this.maxRetries) {
           console.log(`Request failed, retrying... Attempt ${attempt + 1}/${this.maxRetries}`);
           await this.backoffDelay(attempt);
-          continue;
+
         } else {
           // Re-throw error on last attempt
           throw error;
