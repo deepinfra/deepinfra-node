@@ -33,6 +33,11 @@ interface TextGenerationOut {
 }
 
 export class MixtralModelService {
+
+  constructor(private readonly authToken: string) {
+  }
+
+
   async generate(input: string, stream: boolean = false): Promise<TextGenerationOut> {
     try {
       const body = {
@@ -40,7 +45,7 @@ export class MixtralModelService {
       } as MixtralTextGenerationInput;
       const response = await axios.post<TextGenerationOut>('https://api.deepinfra.com/v1/inference/mistralai/Mixtral-8x7B-Instruct-v0.1', body, {
         headers: {
-          'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.DEEPIFRA_AUTH_TOKEN}`
+          'Content-Type': 'application/json', 'Authorization': `Bearer ${this.authToken}`
         }, timeout: 5000
       });
 

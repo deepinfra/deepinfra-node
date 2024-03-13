@@ -19,6 +19,9 @@ devDependencies:
   '@types/jest':
     specifier: ^29.5.12
     version: 29.5.12
+  '@types/node':
+    specifier: ^20.11.26
+    version: 20.11.26
   '@typescript-eslint/eslint-plugin':
     specifier: ^7.2.0
     version: 7.2.0(@typescript-eslint/parser@7.2.0)(eslint@8.57.0)(typescript@5.4.2)
