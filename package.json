@@ -1,7 +1,7 @@
 {
-  "name": "simple-deepinfra",
+  "name": "deepinfra-api",
   "version": "1.0.0",
-  "description": "Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.",
+  "description": "Unofficial API wrapper for DeepInfra",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
