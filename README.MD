@@ -29,7 +29,7 @@ console.log(text);
 
 The Mixtral mixture of expert model, developed by Mistral AI, is an innovative experimental machine learning model that leverages a mixture of 8 experts (MoE) within 7b models. Its release was facilitated via a torrent, and the model's implementation remains in the experimental phase.
 
-```
+```typescript
 import {MixtralModelService} from "simple-deepinfra";
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
 const mixtralModelService = new MixtralModelService(apiKey);
