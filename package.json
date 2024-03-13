@@ -2,7 +2,11 @@
   "name": "simple-deepinfra",
   "version": "1.0.0",
   "description": "Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts",

@@ -34,8 +34,7 @@ interface TextGenerationOut {
 
 export class MixtralModelService {
 
-  constructor(private readonly authToken: string) {
-  }
+  constructor(private readonly authToken: string) {}
 
 
   async generate(input: string, stream: boolean = false): Promise<TextGenerationOut> {
