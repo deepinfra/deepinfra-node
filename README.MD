@@ -1,3 +1,5 @@
+![npm](https://img.shields.io/npm/v/simple-deepinfra)
+![npm](https://img.shields.io/npm/dt/simple-deepinfra)
 # simple-deepinfra
 
 Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.
