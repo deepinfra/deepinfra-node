@@ -25,6 +25,6 @@ jobs:
 
       - run: npm version --allow-same-version --no-git-tag-version ${{ github.event.release.tag_name }}
 
-      - run: ppm publish --access=public
+      - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
