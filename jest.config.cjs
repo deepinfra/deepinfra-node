@@ -7,5 +7,16 @@ module.exports = {
 		"/node_modules/",
 		"/examples/",
 		"/test/"
-	]
+	],
+	moduleNameMapper: {
+		"^@/(.*)$": "<rootDir>/src/$1"
+	},
+	testMatch: [
+		"<rootDir>/test/**/*.spec.ts"
+	],
+	rootDir: ".",
+	transform: {
+		"^.+\\.tsx?$": "ts-jest"
+	},
+
 };

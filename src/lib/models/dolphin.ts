@@ -1,4 +1,5 @@
 import {TextGenerationResponse} from '@/lib/types/text-generation-response';
+import axios from 'axios';
 
 
 export class DolphinModelService {
@@ -18,17 +19,11 @@ export class DolphinModelService {
     };
 
     try {
-      const response = await fetch(DolphinModelService.endpoint, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await axios.post(DolphinModelService.endpoint, body, {headers: headers});
+      const {data,status} = response;
+      if (status !== 200) {
+        throw new Error(`HTTP error! status: ${status}`);
       }
-
-      const data = await response.json();
       return data;
     } catch (error) {
       console.error('Error generating text:', error);

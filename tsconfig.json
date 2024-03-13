@@ -16,6 +16,7 @@
     "rootDir": "src",
     "types": [
       "node",
+      "jest"
     ],
     "paths": {
       "@/*": [
