@@ -1,6 +1,7 @@
 import {BaseModel} from '@/lib/models/base';
 import {AxiosResponse} from 'axios';
 import {ImageGenerationResponse} from '@/lib/types/image-generation/response';
+import {ImageGenerationRequest} from '@/lib/types/image-generation/request';
 
 
 export abstract class ImageGenerationBaseModel extends BaseModel {
@@ -9,10 +10,10 @@ export abstract class ImageGenerationBaseModel extends BaseModel {
     super(endpoint, authToken);
   }
 
-  public async generate(prompt: string): Promise<ImageGenerationResponse> {
+  public async generate(input: ImageGenerationRequest): Promise<ImageGenerationResponse> {
 
     const body = {
-      input:{prompt},
+      input,
     };
 
     try {

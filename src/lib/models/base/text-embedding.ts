@@ -8,11 +8,7 @@ export abstract class TextEmbeddingBaseModel extends BaseModel {
     super(endpoint, authToken);
   }
 
-  public async generate(inputs: string[], normalize: boolean = false): Promise<EmbeddingsResponse> {
-    const body = {
-      inputs,
-      normalize,
-    } as EmbeddingsRequest;
+  public async generate(body: EmbeddingsRequest): Promise<EmbeddingsResponse> {
 
     try {
       const response = await this.client.post<EmbeddingsResponse>(body);

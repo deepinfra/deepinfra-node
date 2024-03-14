@@ -10,13 +10,8 @@ export abstract class TextGenerationBaseModel extends BaseModel {
   }
 
   public async generate<T extends TextGenerationResponse>(
-    input:string,
-    stream?: boolean,
+    body: TextGenerationRequest,
   ): Promise<T> {
-    const body = {
-      input,
-      stream,
-    } as TextGenerationRequest;
     try {
       const response = await this.client.post<T>(body);
       return response.data;
