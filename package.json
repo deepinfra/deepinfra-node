@@ -12,7 +12,8 @@
     "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts",
     "prepare": "husky",
     "test": "jest --passWithNoTests",
-    "lint": "eslint . --ext .ts --fix"
+    "lint": "eslint . --ext .ts --fix",
+    "build-docs": "typedoc --out docs src"
   },
   "config": {
     "commitizen": {
@@ -53,6 +54,7 @@
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
+    "typedoc": "^0.25.12",
     "typescript": "^5.4.2"
   }
 }
