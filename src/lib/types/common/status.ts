@@ -1,4 +1,4 @@
-export interface EmbeddingStatus {
+export interface Status {
   status: 'unknown' | 'queued' | 'running' | 'succeeded' | 'failed';
   runtime_ms: number;
   cost: number;
