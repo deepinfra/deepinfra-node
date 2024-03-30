@@ -222,4 +222,4 @@ requests to us.
 
 ## License
 
-This is free and unencumbered public domain software. For more info, see https://unlicense.org.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
