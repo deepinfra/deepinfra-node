@@ -1,4 +1,4 @@
-import {FinBert} from "@/index";
+import {FinBert} from '@/index';
 
 describe('FinBert', () => {
   it('should be exported', () => {

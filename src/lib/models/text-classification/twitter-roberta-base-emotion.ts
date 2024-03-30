@@ -1,4 +1,4 @@
-import {TextClassificationBaseModel} from "@/lib/models/base";
+import {TextClassificationBaseModel} from '@/lib/models/base';
 
 
 export class TwitterRobertaBaseEmotion extends TextClassificationBaseModel {

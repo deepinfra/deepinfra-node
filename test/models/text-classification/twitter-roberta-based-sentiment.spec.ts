@@ -1,4 +1,4 @@
-import {TwitterRobertaBaseSentiment} from "@/index";
+import {TwitterRobertaBaseSentiment} from '@/index';
 
 describe('TwitterRobertaBaseSentiment', () => {
   it('should be exported', () => {

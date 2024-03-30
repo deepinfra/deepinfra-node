@@ -1,4 +1,4 @@
-import {DistilBertBaseUncasedFinetunedSst2English} from "@/index";
+import {DistilBertBaseUncasedFinetunedSst2English} from '@/index';
 
 describe('DistilBertBaseUncasedFinetunedSst2English', () => {
   it('should be exported', () => {
