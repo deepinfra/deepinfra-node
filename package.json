@@ -34,6 +34,12 @@
     "ai"
   ],
   "author": "Oguz Vuruskaner <ovuruska@gmail.com> (https://www.oguzvuruskaner.com)",
+  "contributors": [
+    {
+      "name":"Iskren Ivov Chernev",
+      "github":"https://github.com/ichernev"
+    }
+  ],
   "license": "Unlicense",
   "dependencies": {
     "@swc/core": "^1.4.6",
