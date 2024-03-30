@@ -14,6 +14,7 @@
     "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts --fix",
     "build-docs": "typedoc --out docs src",
+    "predeploy-docs": "npm run build-docs",
     "deploy-docs": "npx gh-pages -d docs"
   },
   "config": {
@@ -34,7 +35,7 @@
     "ai"
   ],
   "author": "Oguz Vuruskaner <ovuruska@gmail.com> (https://www.oguzvuruskaner.com)",
-  "license": "Unlicense",
+  "license": "MIT",
   "dependencies": {
     "@swc/core": "^1.4.6",
     "@swc/wasm": "^1.4.6",
