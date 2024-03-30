@@ -1,9 +1,16 @@
+
 ![npm](https://img.shields.io/npm/v/deepinfra-api)
-![npm](https://img.shields.io/npm/dt/deepinfra-api)
+![npm](https://img.shields.io/npm/dt/deepinfra-api)<br>
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+
+
 
 # deepinfra-api
-
 Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.
+
 
 ## Installation
 

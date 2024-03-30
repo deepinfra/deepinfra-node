@@ -140,7 +140,7 @@ dist
 *.njsproj
 *.sln
 
-
+docs
 dist
 **misc.ts
 docs

@@ -28,11 +28,9 @@ export class DeepInfraClient {
         return response;
       } catch (error) {
         if (attempt < this.maxRetries) {
-          console.log(`Request failed, retrying... Attempt ${attempt + 1}/${this.maxRetries}`);
           await this.backoffDelay(attempt);
 
         } else {
-          // Re-throw error on last attempt
           throw error;
         }
       }
