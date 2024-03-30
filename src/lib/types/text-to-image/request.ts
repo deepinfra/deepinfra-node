@@ -1,4 +1,4 @@
-export interface ImageGenerationRequest {
+export interface TextToImageRequest {
   prompt: string;
   negative_prompt?: string;
   image?: string;

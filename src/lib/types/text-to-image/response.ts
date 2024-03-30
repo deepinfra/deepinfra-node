@@ -1,6 +1,6 @@
-import {ImageGenerationRequest} from '@/lib/types/image-generation/request';
+import {TextToImageRequest} from '@/lib/types/text-to-image/request';
 
-export interface ImageGenerationResponse {
+export interface TextToImageResponse {
   request_id: string;
   inference_status: {
     status: 'unknown' | 'queued' | 'running' | 'succeeded' | 'failed';
@@ -9,7 +9,7 @@ export interface ImageGenerationResponse {
     tokens_generated: number | null;
     tokens_input: number | null;
   };
-  input: ImageGenerationRequest;
+  input: TextToImageRequest;
   output: string[];
   id: string;
   version: string | null;
