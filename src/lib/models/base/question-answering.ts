@@ -1,6 +1,6 @@
-import {QuestionAnsweringRequest} from "@/lib/types/questions-answering/request";
-import {QuestionAnsweringResponse} from "@/lib/types/questions-answering/response";
-import {CustomModel} from "@/lib/models/base/custom-model";
+import {QuestionAnsweringRequest} from '@/lib/types/questions-answering/request';
+import {QuestionAnsweringResponse} from '@/lib/types/questions-answering/response';
+import {CustomModel} from '@/lib/models/base/custom-model';
 
 
 export class QuestionAnsweringBaseModel extends CustomModel<QuestionAnsweringRequest,QuestionAnsweringResponse>{

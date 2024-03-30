@@ -1,4 +1,4 @@
-import {QuestionAnsweringBaseModel} from "@/lib/models/base";
+import {QuestionAnsweringBaseModel} from '@/lib/models/base';
 
 
 export class MiniLmUncasedSquad2 extends QuestionAnsweringBaseModel {
