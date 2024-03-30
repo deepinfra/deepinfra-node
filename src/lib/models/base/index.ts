@@ -8,3 +8,4 @@ export {AutomaticSpeechRecognitionBaseModel} from '@/lib/models/base/automatic-s
 export {TokenClassificationBaseModel} from '@/lib/models/base/token-classification';
 export {FillMaskBaseModel} from '@/lib/models/base/fill-mask';
 export {TextClassificationBaseModel} from '@/lib/models/base/text-classification';
+export {QuestionAnsweringBaseModel} from '@/lib/models/base/question-answering';

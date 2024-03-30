@@ -6,3 +6,4 @@ export * from '@/lib/models/object-detection';
 export * from '@/lib/models/token-classification';
 export * from '@/lib/models/fill-mask';
 export * from '@/lib/models/text-classification';
+export * from '@/lib/models/question-answering';
