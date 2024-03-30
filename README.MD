@@ -4,6 +4,8 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+
 
 # deepinfra-api
 
