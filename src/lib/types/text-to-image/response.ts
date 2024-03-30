@@ -1,5 +1,5 @@
 import {TextToImageRequest} from '@/lib/types/text-to-image/request';
-import {Status} from "@/lib/types/common/status";
+import {Status} from '@/lib/types/common/status';
 
 export interface TextToImageResponse {
   request_id: string;

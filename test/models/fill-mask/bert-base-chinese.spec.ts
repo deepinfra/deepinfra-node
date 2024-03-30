@@ -1,4 +1,4 @@
-import {BertBaseChinese} from "@/index";
+import {BertBaseChinese} from '@/index';
 
 describe('BertBaseChinese', () => {
   it('should be exported', () => {

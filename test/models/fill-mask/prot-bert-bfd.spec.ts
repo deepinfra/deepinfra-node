@@ -1,4 +1,4 @@
-import {ProtBertBfd} from "@/index";
+import {ProtBertBfd} from '@/index';
 
 describe('ProtBertBfd', () => {
   it('should be exported', () => {

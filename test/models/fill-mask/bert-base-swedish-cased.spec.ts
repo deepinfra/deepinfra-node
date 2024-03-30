@@ -1,4 +1,4 @@
-import {BertBaseSwedishCased} from "@/index";
+import {BertBaseSwedishCased} from '@/index';
 
 describe('BertBaseSwedishCased', () => {
   it('should be exported', () => {

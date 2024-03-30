@@ -1,4 +1,4 @@
-import {FillMaskBaseModel} from "@/lib/models/base";
+import {FillMaskBaseModel} from '@/lib/models/base';
 
 
 export class BertBaseDutchCased extends FillMaskBaseModel {
