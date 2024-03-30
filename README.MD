@@ -1,4 +1,3 @@
-
 ![npm](https://img.shields.io/npm/v/deepinfra-api)
 ![npm](https://img.shields.io/npm/dt/deepinfra-api)<br>
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
@@ -6,11 +5,9 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 
-
-
 # deepinfra-api
-Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.
 
+Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.
 
 ## Installation
 
@@ -165,6 +162,25 @@ const main = async () => {
   };
   const response = await model.generate(input);
   const {results} = response;
+  console.log(results);
+}
+```
+
+### Generate fill-mask results in Dutch using a BERT model
+
+```typescript
+import {BertBaseDutchCased} from 'deepinfra-api';
+
+const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+
+const main = async () => {
+  const model = new BertBaseDutchCased(apiKey);
+
+  const body = {
+    input: 'Ik heb een [MASK] gekocht.',
+  };
+
+  const {results} = await model.generate(body);
   console.log(results);
 }
 ```

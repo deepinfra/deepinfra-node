@@ -1,14 +1,9 @@
 import {TextToImageRequest} from '@/lib/types/text-to-image/request';
+import {Status} from "@/lib/types/common/status";
 
 export interface TextToImageResponse {
   request_id: string;
-  inference_status: {
-    status: 'unknown' | 'queued' | 'running' | 'succeeded' | 'failed';
-    runtime_ms: number;
-    cost: number;
-    tokens_generated: number | null;
-    tokens_input: number | null;
-  };
+  inference_status: Status;
   input: TextToImageRequest;
   output: string[];
   id: string;
