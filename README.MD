@@ -185,6 +185,25 @@ const main = async () => {
 }
 ```
 
+### Generate financial sentiment analysis results using a BERT model
+
+```typescript
+import {FinBert} from 'deepinfra-api';
+const apiKey = String(process.env.DEEP_INFRA_API_KEY);
+
+const misc = async () => {
+  const model = new FinBert(apiKey);
+
+  const body = {
+    input: 'DeepInfra emerges from stealth with $8M to make running AI inferences more affordable',
+  };
+
+  const {results} = await model.generate(body);
+  console.log(results);
+
+};
+```
+
 ## Author
 
 [Oguz Vuruskaner](https://www.oguzvuruskaner.com) - Core Developer
