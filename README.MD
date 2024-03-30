@@ -48,13 +48,17 @@ implementation remains in the experimental phase.
 import {Mixtral} from "deepinfra-api";
 
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
-const mixtral = new Mixtral(apiKey);
-const body = {
-  input: "What is the capital of France?"
+const main = async () => {
+  const mixtral = new Mixtral(apiKey);
+  const body = {
+    input: "What is the capital of France?"
+  }
+  const output = await mixtral.generate(body);
+  const text = output.results[0].generated_text;
+  console.log(text);
 }
-const output = await mixtral.generate(body);
-const text = output.results[0].generated_text;
-console.log(text);
+
+main();
 ```
 
 ### Use gte-base
@@ -63,18 +67,21 @@ console.log(text);
 import {GteBase} from "deepinfra-api";
 
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
-const gteBase = new GteBase(apiKey);
-const body = {
-  inputs: [
-    "What is the capital of France?",
-    "What is the capital of Germany?",
-    "What is the capital of Italy?"
-  ]
+const main = async () => {
+  const gteBase = new GteBase(apiKey);
+  const body = {
+    inputs: [
+      "What is the capital of France?",
+      "What is the capital of Germany?",
+      "What is the capital of Italy?"
+    ]
+  }
+  const output = await gteBase.generate(body);
+  const embeddings = output.embeddings[0];
+  console.log(embeddings);
 }
-const output = await gteBase.generate(body);
-const embeddings = output.embeddings[0];
-console.log(embeddings);
 
+main();
 ```
 
 ### Use SDXL to generate images
@@ -85,7 +92,8 @@ import axios from "axios";
 import fs from "fs";
 
 const apiKey = "YOUR_DEEP_INFRA_API_KEY";
-const misc = async () => {
+
+const main = async () => {
   const model = new Sdxl(apiKey);
 
   const input = {
@@ -98,8 +106,29 @@ const misc = async () => {
   await axios.get(image, {responseType: 'arraybuffer'}).then((response) => {
     fs.writeFileSync('image.png', response.data);
   });
+}
 
-};
+main();
+```
+
+### Use Whisper Large to generate captions from audios
+
+```typescript
+import {WhisperLarge} from "deepinfra-api";
+
+const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const main = async () => {
+  const model = new WhisperLarge(apiKey);
+
+  const input = {
+    audio: path.join(__dirname, 'audio.mp3')
+  };
+  const response = await model.generate(input);
+  const {text} = response;
+  console.log(text);
+}
+
+main();
 ```
 
 ## Author

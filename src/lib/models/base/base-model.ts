@@ -1,4 +1,4 @@
-import {DeepInfraClient} from '@/lib/clients';
+import {DeepInfraClient} from '@/clients';
 
 
 export class BaseModel {
