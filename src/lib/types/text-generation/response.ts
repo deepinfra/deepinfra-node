@@ -1,13 +1,9 @@
+import {Status} from "@/lib/types/common/status";
 
 
 export interface TextGenerationResponse {
   request_id: string;
-  inference_status: {
-    status: string;
-    runtime_ms: number;
-    cost: number;
-    tokens_generated: number;
-  };
+  inference_status: Status;
   results: GeneratedText[];
   num_tokens: number;
   num_input_tokens: number;

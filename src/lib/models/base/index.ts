@@ -6,3 +6,4 @@ export {TextEmbeddingBaseModel} from '@/lib/models/base/text-embedding';
 export {ObjectDetectionBaseModel} from '@/lib/models/base/object-detection';
 export {AutomaticSpeechRecognitionBaseModel} from '@/lib/models/base/automatic-speech-recognition';
 export {TokenClassificationBaseModel} from '@/lib/models/base/token-classification';
+export {FillMaskBaseModel} from '@/lib/models/base/fill-mask';
