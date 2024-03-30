@@ -150,6 +150,25 @@ const main = async () => {
 
 ```
 
+### Generate token classification results using a BERT model
+
+```typescript
+import {BertBaseNer} from "deepinfra-api";
+
+const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+
+const main = async () => {
+  const model = new BertBaseNer(apiKey);
+
+  const input = {
+    text: 'The quick brown fox jumps over the lazy dog'
+  };
+  const response = await model.generate(input);
+  const {results} = response;
+  console.log(results);
+}
+```
+
 ## Author
 
 [Oguz Vuruskaner](https://www.oguzvuruskaner.com) - Core Developer

@@ -1,4 +1,4 @@
-import {TextToImageBaseModel} from '@/lib/models/base/text-to-image';
+import {TextToImageBaseModel} from '@/lib/models/base';
 
 
 export class StableDiffusionV15 extends TextToImageBaseModel {

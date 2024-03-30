@@ -31,6 +31,7 @@
     "src/**/*.json"
   ],
   "exclude": [
+    "**/misc.ts",
     "node_modules",
     "dist",
     "**/*.spec.ts",

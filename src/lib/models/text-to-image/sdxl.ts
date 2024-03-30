@@ -1,4 +1,4 @@
-import {TextToImageBaseModel} from '@/lib/models/base/text-to-image';
+import {TextToImageBaseModel} from '@/lib/models/base';
 import {TextToImageResponse} from '@/lib/types/text-to-image/response';
 import {TextToImageRequest} from '@/lib/types/text-to-image/request';
 import {AxiosResponse} from 'axios';

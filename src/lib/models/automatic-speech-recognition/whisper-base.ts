@@ -1,4 +1,4 @@
-import {AutomaticSpeechRecognitionBaseModel} from '@/lib/models/base/automatic-speech-recognition';
+import {AutomaticSpeechRecognitionBaseModel} from '@/lib/models/base';
 
 
 export class WhisperBase extends AutomaticSpeechRecognitionBaseModel {

@@ -1,4 +1,4 @@
-import {TextEmbeddingBaseModel} from '@/lib/models/base/text-embedding';
+import {TextEmbeddingBaseModel} from '@/lib/models/base';
 
 
 export class GteLarge extends TextEmbeddingBaseModel {
