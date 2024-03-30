@@ -13,7 +13,8 @@
     "prepare": "husky",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts --fix",
-    "build-docs": "typedoc --out docs src"
+    "build-docs": "typedoc --out docs src",
+    "deploy-docs": "npx gh-pages -d docs"
   },
   "config": {
     "commitizen": {
