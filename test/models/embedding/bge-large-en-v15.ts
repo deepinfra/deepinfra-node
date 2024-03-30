@@ -1,4 +1,4 @@
-export { BgeLargeEnV15 } from '@/index';
+import {BgeLargeEnV15} from '@/index';
 
 describe('BgeLargeEnV15', () => {
 

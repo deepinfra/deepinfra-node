@@ -21,6 +21,7 @@
     "unicorn"
   ],
   "rules": {
+    "unicorn/prevent-abbreviations": "off",
     "unicorn/filename-case": [
       "error",
       {
