@@ -131,6 +131,25 @@ const main = async () => {
 main();
 ```
 
+### Use Yolos Base to generate object detection results
+
+```typescript
+import {YolosBase} from "deepinfra-api";
+
+const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const main = async () => {
+  const model = new YolosBase(apiKey);
+
+  const input = {
+    image: path.join(__dirname, 'image.jpg')
+  };
+  const response = await model.generate(input);
+  const {results} = response;
+  console.log(results);
+}
+
+```
+
 ## Author
 
 [Oguz Vuruskaner](https://www.oguzvuruskaner.com) - Core Developer
