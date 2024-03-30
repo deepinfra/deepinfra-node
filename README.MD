@@ -5,11 +5,16 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 
 # deepinfra-api
 
 Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.
+Check out the docs from [here.](https://ovuruska.github.io/deepinfra-api/)
 
 ## Installation
 
@@ -202,21 +207,6 @@ const misc = async () => {
 
   const {results} = await model.generate(body);
   console.log(results);
-
-};
-```
-
-### Generate answers to questions using a MiniLM model
-
-```typescript
-import {MiniLmUncasedSquad2} from 'deepinfra-api';
-const misc = async () => {
-  const model = new MiniLmUncasedSquad2(apiKey);
-
-  const body = {question: "Who jumped?", context: "The quick brown fox jumped over the lazy dog."};
-
-  const {answer} = await model.generate(body);
-  console.log(answer);
 
 };
 ```
