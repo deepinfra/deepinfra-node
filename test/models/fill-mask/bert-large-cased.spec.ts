@@ -1,4 +1,4 @@
-import {BertLargeCased} from "@/index";
+import {BertLargeCased} from '@/index';
 
 describe('BertLargeCased', () => {
   it('should be exported', () => {
