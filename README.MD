@@ -204,6 +204,21 @@ const misc = async () => {
 };
 ```
 
+### Generate answers to questions using a MiniLM model
+
+```typescript
+import {MiniLmUncasedSquad2} from 'deepinfra-api';
+const misc = async () => {
+  const model = new MiniLmUncasedSquad2(apiKey);
+
+  const body = {question: "Who jumped?", context: "The quick brown fox jumped over the lazy dog."};
+
+  const {answer} = await model.generate(body);
+  console.log(answer);
+
+};
+```
+
 ## Author
 
 [Oguz Vuruskaner](https://www.oguzvuruskaner.com) - Core Developer
