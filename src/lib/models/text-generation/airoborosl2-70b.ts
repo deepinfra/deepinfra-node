@@ -1,4 +1,4 @@
-import {TextGenerationBaseModel} from '@/lib/models/base/text-generation';
+import {TextGenerationBaseModel} from '@/lib/models/base';
 
 
 export class AiroborosL2_70B extends TextGenerationBaseModel {

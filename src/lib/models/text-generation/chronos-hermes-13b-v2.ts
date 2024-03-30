@@ -1,4 +1,4 @@
-import {TextGenerationBaseModel} from '@/lib/models/base/text-generation';
+import {TextGenerationBaseModel} from '@/lib/models/base';
 
 
 export class ChronosHermes_13B_V2 extends TextGenerationBaseModel {

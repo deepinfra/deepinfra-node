@@ -1,4 +1,4 @@
-import {TextGenerationBaseModel} from '@/lib/models/base/text-generation';
+import {TextGenerationBaseModel} from '@/lib/models/base';
 
 
 export class Llama2_7B extends TextGenerationBaseModel {

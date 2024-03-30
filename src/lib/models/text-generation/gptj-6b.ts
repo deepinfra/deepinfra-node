@@ -1,4 +1,4 @@
-import {TextGenerationBaseModel} from '@/lib/models/base/text-generation';
+import {TextGenerationBaseModel} from '@/lib/models/base';
 
 
 export class GptJ_6B extends TextGenerationBaseModel {

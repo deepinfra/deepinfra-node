@@ -1,4 +1,4 @@
-import {TextEmbeddingBaseModel} from '@/lib/models/base/text-embedding';
+import {TextEmbeddingBaseModel} from '@/lib/models/base';
 
 export class E5BaseV2 extends TextEmbeddingBaseModel {
   static endpoint: string = 'https://api.deepinfra.com/v1/inference/intfloat/e5-base-v2';
