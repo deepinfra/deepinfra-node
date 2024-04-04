@@ -2,17 +2,13 @@ export interface TextToImageRequest {
   prompt: string;
   negative_prompt?: string;
   image?: string;
-  mask?: string;
-  width?: number;
-  height?: number;
-  num_outputs?: number;
-  scheduler?: 'DDIM' | 'DPMSolverMultistep' | 'HeunDiscrete' | 'KarrasDPM' | 'K_EULER_ANCESTRAL' | 'K_EULER' | 'PNDM';
+  num_images?: number;
   num_inference_steps?: number;
   guidance_scale?: number;
-  prompt_strength?: number;
+  strength?: number;
+  width?: 128 | 256 | 384 | 448 | 512 | 576 | 640 | 704 | 768 | 832 | 896 | 960 | 1024;
+  height?: 128 | 256 | 384 | 448 | 512 | 576 | 640 | 704 | 768 | 832 | 896 | 960 | 1024;
   seed?: number;
-  refine?: 'no_refiner' | 'expert_ensemble_refiner' | 'base_image_refiner';
-  high_noise_frac?: number;
-  refine_steps?: number;
-  apply_watermark?: boolean;
+  use_compel?: boolean;
+  webhook?: string;
 }
