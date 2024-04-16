@@ -1,16 +1,21 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {INITIAL_BACKOFF, MAX_RETRIES, SUBSEQUENT_BACKOFF, USER_AGENT} from '@/lib/constants/client';
+import {ClientConfig} from "@/lib/types/common/client-config";
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
-  private readonly maxRetries: number = MAX_RETRIES;
-  private readonly initialBackoff: number = INITIAL_BACKOFF;
-  private readonly subsequentBackoff: number = SUBSEQUENT_BACKOFF;
+  private readonly maxRetries: number
+  private readonly initialBackoff: number;
+  private readonly subsequentBackoff: number;
 
-  constructor(private readonly url: string, private readonly authToken: string) {
+  constructor(private readonly url: string, private readonly authToken: string,config?: ClientConfig) {
     this.axiosClient = axios.create({
       baseURL: this.url,
     });
+
+    this.maxRetries = config?.maxRetries ?? MAX_RETRIES;
+    this.initialBackoff = config?.initialBackoff ?? INITIAL_BACKOFF;
+    this.subsequentBackoff = config?.subsequentBackoff ?? SUBSEQUENT_BACKOFF;
   }
 
   private async backoffDelay(attempt: number): Promise<void> {
