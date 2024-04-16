@@ -2,11 +2,11 @@ import { AxiosError } from 'axios';
 import { BaseModel } from '@/lib/models/base';
 import {TextGenerationResponse} from '@/lib/types/text-generation/response';
 import {TextGenerationRequest} from '@/lib/types/text-generation/request';
-import {ClientConfig} from "@/lib/types/common/client-config";
+import {IClientConfig} from '@/lib/types/common/client-config';
 
 export abstract class TextGenerationBaseModel extends BaseModel {
 
-  protected constructor(protected endpoint: string, authToken: string, config?: ClientConfig) {
+  protected constructor(protected endpoint: string, authToken: string, config?: IClientConfig) {
     super(endpoint, authToken, config);
   }
 

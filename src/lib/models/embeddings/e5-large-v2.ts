@@ -1,9 +1,9 @@
 import {TextEmbeddingBaseModel} from '@/lib/models/base';
-import {ClientConfig} from "@/lib/types/common/client-config";
+import {IClientConfig} from '@/lib/types/common/client-config';
 
 export class E5LargeV2 extends TextEmbeddingBaseModel {
   public static readonly endpoint: string = 'https://api.deepinfra.com/v1/inference/intfloat/e5-large-v2';
-  constructor(authToken: string, config?: ClientConfig) {
+  constructor(authToken: string, config?: IClientConfig) {
     super(E5LargeV2.endpoint, authToken, config);
   }
 }

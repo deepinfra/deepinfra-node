@@ -2,11 +2,11 @@ import {BaseModel} from '@/lib/models/base/base-model';
 import * as fs from 'node:fs';
 import {ObjectDetectionRequest} from '@/lib/types/object-detection/request';
 import {ObjectDetectionResponse} from '@/lib/types/object-detection/response';
-import {ClientConfig} from "@/lib/types/common/client-config";
+import {IClientConfig} from '@/lib/types/common/client-config';
 
 export abstract class ObjectDetectionBaseModel extends BaseModel{
 
-  protected constructor(endpoint: string, authToken: string, config?: ClientConfig) {
+  protected constructor(endpoint: string, authToken: string, config?: IClientConfig) {
     super(endpoint, authToken, config);
   }
 

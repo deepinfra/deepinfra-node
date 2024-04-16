@@ -1,25 +1,20 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
-import {INITIAL_BACKOFF, MAX_RETRIES, SUBSEQUENT_BACKOFF, USER_AGENT} from '@/lib/constants/client';
-import {ClientConfig} from "@/lib/types/common/client-config";
+import {USER_AGENT} from '@/lib/constants/client';
+import {ClientConfig, IClientConfig} from '@/lib/types/common/client-config';
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
-  private readonly maxRetries: number
-  private readonly initialBackoff: number;
-  private readonly subsequentBackoff: number;
+  private readonly clientConfig : IClientConfig;
 
-  constructor(private readonly url: string, private readonly authToken: string,config?: ClientConfig) {
+  constructor(private readonly url: string, private readonly authToken: string,config?: IClientConfig) {
     this.axiosClient = axios.create({
       baseURL: this.url,
     });
-
-    this.maxRetries = config?.maxRetries ?? MAX_RETRIES;
-    this.initialBackoff = config?.initialBackoff ?? INITIAL_BACKOFF;
-    this.subsequentBackoff = config?.subsequentBackoff ?? SUBSEQUENT_BACKOFF;
+    this.clientConfig = config || new ClientConfig();
   }
 
   private async backoffDelay(attempt: number): Promise<void> {
-    const delay = attempt === 1 ? this.initialBackoff : this.subsequentBackoff;
+    const delay = attempt === 1 ? this.clientConfig.initialBackoff : this.clientConfig.subsequentBackoff;
     return new Promise((resolve) => setTimeout(resolve, delay));
   }
 
@@ -27,12 +22,11 @@ export class DeepInfraClient {
     const headers = {
       'Content-Type': 'application/json', 'Authorization': `Bearer ${this.authToken}`, 'User-Agent': USER_AGENT
     };
-    for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
+    for (let attempt = 0; attempt <= this.clientConfig.maxRetries; attempt++) {
       try {
-        const response = await this.axiosClient.post(this.url, data, {headers, ...config});
-        return response;
+        return await this.axiosClient.post(this.url, data, {headers, ...config});
       } catch (error) {
-        if (attempt < this.maxRetries) {
+        if (attempt < this.clientConfig.maxRetries) {
           await this.backoffDelay(attempt);
 
         } else {

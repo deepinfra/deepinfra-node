@@ -1,9 +1,9 @@
 import {BaseModel} from '@/lib/models/base/base-model';
-import {ClientConfig} from "@/lib/types/common/client-config";
+import {IClientConfig} from '@/lib/types/common/client-config';
 
 export abstract class CustomModel<Request extends object,Response extends object> extends BaseModel {
 
-  protected constructor(endpoint: string, authToken: string, config?: ClientConfig) {
+  protected constructor(endpoint: string, authToken: string, config?: IClientConfig) {
     super(endpoint, authToken, config);
   }
 
