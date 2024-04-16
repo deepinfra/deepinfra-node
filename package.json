@@ -12,8 +12,8 @@
     "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts",
     "prepare": "husky",
     "test": "jest --passWithNoTests",
-    "prettier": "prettier --write ./src",
     "lint": "eslint . --ext .ts --fix",
+    "prettier": "prettier --write ./src",
     "build-docs": "typedoc --out docs src",
     "predeploy-docs": "npm run build-docs",
     "deploy-docs": "npx gh-pages -d docs"

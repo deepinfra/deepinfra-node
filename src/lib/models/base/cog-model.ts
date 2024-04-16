@@ -2,13 +2,15 @@ import { AxiosError } from "axios";
 import { BaseModel } from "@/lib/models/base";
 import { CogResponse } from "@/lib/types/cog/response";
 import { CogRequest } from "@/lib/types/cog/request";
+import { IClientConfig } from "@/lib/types/common/client-config";
 
 export class CogBaseModel<CogIn, CogOut> extends BaseModel {
   constructor(
     protected endpoint: string,
     authToken: string,
+    config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken);
+    super(endpoint, authToken, config);
   }
 
   public async generate(
