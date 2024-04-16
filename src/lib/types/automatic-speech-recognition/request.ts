@@ -1,6 +1,6 @@
 export interface AutomaticSpeechRecognitionRequest {
   audio: string;
-  task?: 'transcribe' | 'translate';
+  task?: "transcribe" | "translate";
   language?: string;
   temperature?: number;
   patience?: number;
@@ -13,4 +13,3 @@ export interface AutomaticSpeechRecognitionRequest {
   no_speech_threshold?: number;
   webhook?: string;
 }
-
