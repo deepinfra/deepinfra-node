@@ -1,1 +1,1 @@
-export {MiniLmUncasedSquad2} from '@/lib/models/question-answering/minilm-uncased-squad2';
+export { MiniLmUncasedSquad2 } from "@/lib/models/question-answering/minilm-uncased-squad2";

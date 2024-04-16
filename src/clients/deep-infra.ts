@@ -1,5 +1,10 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
-import {INITIAL_BACKOFF, MAX_RETRIES, SUBSEQUENT_BACKOFF, USER_AGENT} from '@/lib/constants/client';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import {
+  INITIAL_BACKOFF,
+  MAX_RETRIES,
+  SUBSEQUENT_BACKOFF,
+  USER_AGENT,
+} from "@/lib/constants/client";
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
@@ -7,7 +12,10 @@ export class DeepInfraClient {
   private readonly initialBackoff: number = INITIAL_BACKOFF;
   private readonly subsequentBackoff: number = SUBSEQUENT_BACKOFF;
 
-  constructor(private readonly url: string, private readonly authToken: string) {
+  constructor(
+    private readonly url: string,
+    private readonly authToken: string,
+  ) {
     this.axiosClient = axios.create({
       baseURL: this.url,
     });
@@ -18,25 +26,30 @@ export class DeepInfraClient {
     return new Promise((resolve) => setTimeout(resolve, delay));
   }
 
-  public async post<T>(data: object, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  public async post<T>(
+    data: object,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> {
     const headers = {
-      'Content-Type': 'application/json', 'Authorization': `Bearer ${this.authToken}`, 'User-Agent': USER_AGENT
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${this.authToken}`,
+      "User-Agent": USER_AGENT,
     };
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
       try {
-        const response = await this.axiosClient.post(this.url, data, {headers, ...config});
+        const response = await this.axiosClient.post(this.url, data, {
+          headers,
+          ...config,
+        });
         return response;
       } catch (error) {
         if (attempt < this.maxRetries) {
           await this.backoffDelay(attempt);
-
         } else {
           throw error;
         }
       }
     }
-    throw new Error('Maximum retries exceeded');
+    throw new Error("Maximum retries exceeded");
   }
 }
-
-

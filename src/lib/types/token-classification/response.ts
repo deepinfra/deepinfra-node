@@ -1,4 +1,4 @@
-import {Status} from '@/lib/types/common/status';
+import { Status } from "@/lib/types/common/status";
 
 export interface TokenClassificationItem {
   entity_group: string;
@@ -7,7 +7,6 @@ export interface TokenClassificationItem {
   start: number;
   end: number;
 }
-
 
 export interface TokenClassificationResponse {
   results: TokenClassificationItem[];

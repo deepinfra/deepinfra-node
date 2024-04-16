@@ -1,1 +1,1 @@
-export {DeepInfraClient} from '@/clients/deep-infra';
+export { DeepInfraClient } from "@/clients/deep-infra";

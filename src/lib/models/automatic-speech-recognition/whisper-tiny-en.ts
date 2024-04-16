@@ -1,7 +1,8 @@
-import {AutomaticSpeechRecognitionBaseModel} from '@/lib/models/base';
+import { AutomaticSpeechRecognitionBaseModel } from "@/lib/models/base";
 
 export class WhisperTinyEn extends AutomaticSpeechRecognitionBaseModel {
-  public static readonly endpoint = 'https://api.deepinfra.com/v1/inference/openai/whisper-tiny.en';
+  public static readonly endpoint =
+    "https://api.deepinfra.com/v1/inference/openai/whisper-tiny.en";
 
   constructor(authToken: string) {
     super(WhisperTinyEn.endpoint, authToken);

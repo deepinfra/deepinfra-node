@@ -1,8 +1,8 @@
-import {TextEmbeddingBaseModel} from '@/lib/models/base';
-
+import { TextEmbeddingBaseModel } from "@/lib/models/base";
 
 export class ClipVitB32 extends TextEmbeddingBaseModel {
-  public static readonly endpoint: string = 'https://api.deepinfra.com/v1/inference/sentence-transformers/clip-ViT-B-32';
+  public static readonly endpoint: string =
+    "https://api.deepinfra.com/v1/inference/sentence-transformers/clip-ViT-B-32";
 
   constructor(authToken: string) {
     super(ClipVitB32.endpoint, authToken);

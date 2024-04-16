@@ -4,6 +4,3 @@ export interface EmbeddingsRequest {
   image?: string;
   webhook?: string;
 }
-
-
-

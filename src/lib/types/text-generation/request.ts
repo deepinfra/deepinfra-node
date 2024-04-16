@@ -15,5 +15,3 @@ export interface TextGenerationRequest {
   frequency_penalty?: number;
   webhook?: string;
 }
-
-

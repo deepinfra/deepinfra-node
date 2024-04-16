@@ -1,12 +1,10 @@
-import {TokenClassificationBaseModel} from '@/lib/models/base';
-
+import { TokenClassificationBaseModel } from "@/lib/models/base";
 
 export class BertBaseNer extends TokenClassificationBaseModel {
-
-  public static readonly endpoint : string = 'https://api.deepinfra.com/v1/inference/dslim/bert-base-NER';
+  public static readonly endpoint: string =
+    "https://api.deepinfra.com/v1/inference/dslim/bert-base-NER";
 
   constructor(authToken: string) {
     super(BertBaseNer.endpoint, authToken);
   }
-
 }
