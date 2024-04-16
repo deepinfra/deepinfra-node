@@ -1,4 +1,4 @@
-import {Status} from '@/lib/types/common/status';
+import { Status } from "@/lib/types/common/status";
 
 export interface TextToImageResponse {
   images: string[];

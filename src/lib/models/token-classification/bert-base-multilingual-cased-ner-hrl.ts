@@ -1,13 +1,11 @@
-import {TokenClassificationBaseModel} from '@/lib/models/base';
-import {IClientConfig} from '@/lib/types/common/client-config';
-
+import { TokenClassificationBaseModel } from "@/lib/models/base";
+import { IClientConfig } from "@/lib/types/common/client-config";
 
 export class BertBaseMultilingualCasedNerHrl extends TokenClassificationBaseModel {
-
-  public static readonly endpoint : string = 'https://api.deepinfra.com/v1/inference/Davlan/bert-base-multilingual-cased-ner-hrl';
+  public static readonly endpoint: string =
+    "https://api.deepinfra.com/v1/inference/Davlan/bert-base-multilingual-cased-ner-hrl";
 
   constructor(authToken: string, config?: Partial<IClientConfig>) {
     super(BertBaseMultilingualCasedNerHrl.endpoint, authToken, config);
   }
-
 }

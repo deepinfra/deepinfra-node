@@ -1,4 +1,4 @@
-import {Status} from '@/lib/types/common/status';
+import { Status } from "@/lib/types/common/status";
 
 export interface FillMaskItem {
   sequence: string;
@@ -6,7 +6,6 @@ export interface FillMaskItem {
   token: number;
   token_str: string;
 }
-
 
 export interface FillMaskResponse {
   results: FillMaskItem[];
