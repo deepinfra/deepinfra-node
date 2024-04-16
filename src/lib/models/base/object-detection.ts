@@ -6,7 +6,7 @@ import {IClientConfig} from '@/lib/types/common/client-config';
 
 export abstract class ObjectDetectionBaseModel extends BaseModel{
 
-  protected constructor(endpoint: string, authToken: string, config?: IClientConfig) {
+  protected constructor(endpoint: string, authToken: string, config?: Partial<IClientConfig>) {
     super(endpoint, authToken, config);
   }
 

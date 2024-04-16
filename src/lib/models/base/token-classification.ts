@@ -4,7 +4,7 @@ import {TokenClassificationResponse} from '@/lib/types/token-classification/resp
 import {IClientConfig} from '@/lib/types/common/client-config';
 
 export class TokenClassificationBaseModel extends CustomModel<FillMaskRequest, TokenClassificationResponse> {
-  protected constructor(protected endpoint: string, protected authToken: string, config?: IClientConfig) {
+  protected constructor(protected endpoint: string, protected authToken: string, config?: Partial<IClientConfig>) {
     super(endpoint, authToken, config);
   }
 }

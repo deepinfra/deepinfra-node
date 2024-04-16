@@ -5,7 +5,7 @@ import {IClientConfig} from '@/lib/types/common/client-config';
 
 export abstract class TextEmbeddingBaseModel extends BaseModel {
 
-  protected constructor(protected endpoint: string, authToken: string, config?: IClientConfig) {
+  protected constructor(protected endpoint: string, authToken: string, config?: Partial<IClientConfig>) {
     super(endpoint, authToken, config);
   }
 

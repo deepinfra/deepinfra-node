@@ -4,13 +4,13 @@ import {ClientConfig, IClientConfig} from '@/lib/types/common/client-config';
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
-  private readonly clientConfig : IClientConfig;
+  private readonly clientConfig : ClientConfig;
 
-  constructor(private readonly url: string, private readonly authToken: string,config?: IClientConfig) {
+  constructor(private readonly url: string, private readonly authToken: string,config?: Partial<IClientConfig>) {
     this.axiosClient = axios.create({
       baseURL: this.url,
     });
-    this.clientConfig = config || new ClientConfig();
+    this.clientConfig = new ClientConfig(config);
   }
 
   private async backoffDelay(attempt: number): Promise<void> {

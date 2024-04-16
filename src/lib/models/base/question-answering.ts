@@ -5,7 +5,7 @@ import {IClientConfig} from '@/lib/types/common/client-config';
 
 
 export class QuestionAnsweringBaseModel extends CustomModel<QuestionAnsweringRequest,QuestionAnsweringResponse>{
-  protected constructor(protected endpoint: string, protected authToken: string, config?: IClientConfig) {
+  protected constructor(protected endpoint: string, protected authToken: string, config?: Partial<IClientConfig>) {
     super(endpoint, authToken, config);
   }
 }

@@ -6,7 +6,7 @@ export class BertBaseMultilingualCasedNerHrl extends TokenClassificationBaseMode
 
   public static readonly endpoint : string = 'https://api.deepinfra.com/v1/inference/Davlan/bert-base-multilingual-cased-ner-hrl';
 
-  constructor(authToken: string, config?: IClientConfig) {
+  constructor(authToken: string, config?: Partial<IClientConfig>) {
     super(BertBaseMultilingualCasedNerHrl.endpoint, authToken, config);
   }
 
