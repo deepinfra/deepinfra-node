@@ -3,14 +3,15 @@ import * as fs from "node:fs";
 import { ObjectDetectionRequest } from "@/lib/types/object-detection/request";
 import { ObjectDetectionResponse } from "@/lib/types/object-detection/response";
 import { IClientConfig } from "@/lib/types/common/client-config";
+import { ObjectDetectionModels } from "@/lib/models/model-names";
 
-export abstract class ObjectDetectionBaseModel extends BaseModel {
-  protected constructor(
-    endpoint: string,
+export class ObjectDetection extends BaseModel {
+  constructor(
+    modelName: ObjectDetectionModels,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 
   async generate(

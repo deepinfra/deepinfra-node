@@ -2,16 +2,17 @@ import { CustomModel } from "@/lib/models/base/custom-model";
 import { FillMaskRequest } from "@/lib/types/token-classification/request";
 import { TokenClassificationResponse } from "@/lib/types/token-classification/response";
 import { IClientConfig } from "@/lib/types/common/client-config";
+import { FillMaskModels } from "@/lib/models/model-names/fill-mask";
 
-export class FillMaskBaseModel extends CustomModel<
+export class FillMask extends CustomModel<
   FillMaskRequest,
   TokenClassificationResponse
 > {
-  protected constructor(
-    protected endpoint: string,
-    protected authToken: string,
+  constructor(
+    modelName: FillMaskModels,
+    authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 }

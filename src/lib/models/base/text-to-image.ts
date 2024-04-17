@@ -3,14 +3,15 @@ import { AxiosResponse } from "axios";
 import { TextToImageResponse } from "@/lib/types/text-to-image/response";
 import { TextToImageRequest } from "@/lib/types/text-to-image/request";
 import { IClientConfig } from "@/lib/types/common/client-config";
+import { TextToImageModels } from "@/lib/models/model-names";
 
-export abstract class TextToImageBaseModel extends BaseModel {
-  protected constructor(
-    endpoint: string,
+export class TextToImage extends BaseModel {
+  constructor(
+    modelName: TextToImageModels,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 
   public async generate(

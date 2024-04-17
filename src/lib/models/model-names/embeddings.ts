@@ -1,0 +1,16 @@
+export const enum EmbeddingsModels {
+  BAAIBgeLargeEnV15 = "BAAI/bge-large-en-v1.5",
+  BAAIBgeBaseEnV15 = "BAAI/bge-base-en-v1.5",
+  IntfloatE5BaseV2 = "intfloat/e5-base-v2",
+  IntfloatE5LargeV2 = "intfloat/e5-large-v2",
+  SentenceTransformersAllMiniLML12V2 = "sentence-transformers/all-MiniLM-L12-v2",
+  SentenceTransformersAllMiniLML6V2 = "sentence-transformers/all-MiniLM-L6-v2",
+  SentenceTransformersAllMpnetBaseV2 = "sentence-transformers/all-mpnet-base-v2",
+  SentenceTransformersClipViTB32 = "sentence-transformers/clip-ViT-B-32",
+  SentenceTransformersClipViTB32MultilingualV1 = "sentence-transformers/clip-ViT-B-32-multilingual-v1",
+  SentenceTransformersMultiQaMpnetBaseDotV1 = "sentence-transformers/multi-qa-mpnet-base-dot-v1",
+  SentenceTransformersParaphraseMiniLML6V2 = "sentence-transformers/paraphrase-MiniLM-L6-v2",
+  Shibing624Text2VecBaseChinese = "shibing624/text2vec-base-chinese",
+  ThenlperGteBase = "thenlper/gte-base",
+  ThenlperGteLarge = "thenlper/gte-large",
+}

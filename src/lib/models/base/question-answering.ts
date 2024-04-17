@@ -2,16 +2,17 @@ import { QuestionAnsweringRequest } from "@/lib/types/questions-answering/reques
 import { QuestionAnsweringResponse } from "@/lib/types/questions-answering/response";
 import { CustomModel } from "@/lib/models/base/custom-model";
 import { IClientConfig } from "@/lib/types/common/client-config";
+import { QuestionAnsweringModels } from "@/lib/models/model-names";
 
-export class QuestionAnsweringBaseModel extends CustomModel<
+export class QuestionAnswering extends CustomModel<
   QuestionAnsweringRequest,
   QuestionAnsweringResponse
 > {
-  protected constructor(
-    protected endpoint: string,
-    protected authToken: string,
+  constructor(
+    modelName: QuestionAnsweringModels,
+    authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 }

@@ -3,14 +3,15 @@ import { BaseModel } from "@/lib/models/base";
 import { TextGenerationResponse } from "@/lib/types/text-generation/response";
 import { TextGenerationRequest } from "@/lib/types/text-generation/request";
 import { IClientConfig } from "@/lib/types/common/client-config";
+import { TextGenerationModels } from "@/lib/models/model-names";
 
-export abstract class TextGenerationBaseModel extends BaseModel {
-  protected constructor(
-    protected endpoint: string,
+export class TextGeneration extends BaseModel {
+  constructor(
+    modelName: TextGenerationModels,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 
   public async generate<T extends TextGenerationResponse>(

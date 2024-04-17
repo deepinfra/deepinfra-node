@@ -2,16 +2,17 @@ import { TextClassificationRequest } from "@/lib/types/text-classification/reque
 import { TextClassificationResponse } from "@/lib/types/text-classification/response";
 import { CustomModel } from "@/lib/models/base/custom-model";
 import { IClientConfig } from "@/lib/types/common/client-config";
+import { TextClassificationModels } from "@/lib/models/model-names";
 
-export class TextClassificationBaseModel extends CustomModel<
+export class TextClassification extends CustomModel<
   TextClassificationRequest,
   TextClassificationResponse
 > {
-  protected constructor(
-    protected endpoint: string,
-    protected authToken: string,
+  constructor(
+    modelName: TextClassificationModels,
+    authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 }
