@@ -13,7 +13,7 @@
     "prepare": "husky",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts --fix",
-    "prettier": "prettier --write ./src",
+    "prettier": "prettier --write ./src ./test",
     "build-docs": "typedoc --out docs src",
     "predeploy-docs": "npm run build-docs",
     "deploy-docs": "npx gh-pages -d docs"
