@@ -3,11 +3,10 @@ import { BaseModel } from "@/lib/models/base";
 import { TextGenerationResponse } from "@/lib/types/text-generation/response";
 import { TextGenerationRequest } from "@/lib/types/text-generation/request";
 import { IClientConfig } from "@/lib/types/common/client-config";
-import { TextGenerationModels } from "@/lib/models/model-names";
 
 export class TextGeneration extends BaseModel {
   constructor(
-    modelName: TextGenerationModels,
+    modelName: string,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {

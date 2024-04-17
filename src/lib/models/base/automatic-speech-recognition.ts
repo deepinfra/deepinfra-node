@@ -2,11 +2,10 @@ import { AutomaticSpeechRecognitionRequest } from "@/lib/types/automatic-speech-
 import { BaseModel } from "@/lib/models/base/base-model";
 import * as fs from "node:fs";
 import { IClientConfig } from "@/lib/types/common/client-config";
-import { AutomaticSpeechRecognitionModels } from "@/lib/models/model-names/automatic-speech-recognition";
 
 export class AutomaticSpeechRecognition extends BaseModel {
   constructor(
-    modelName: AutomaticSpeechRecognitionModels,
+    modelName: string,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {

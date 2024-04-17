@@ -3,11 +3,10 @@ import { AxiosResponse } from "axios";
 import { TextToImageResponse } from "@/lib/types/text-to-image/response";
 import { TextToImageRequest } from "@/lib/types/text-to-image/request";
 import { IClientConfig } from "@/lib/types/common/client-config";
-import { TextToImageModels } from "@/lib/models/model-names";
 
 export class TextToImage extends BaseModel {
   constructor(
-    modelName: TextToImageModels,
+    modelName: string,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {

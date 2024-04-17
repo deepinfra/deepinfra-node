@@ -3,11 +3,10 @@ import * as fs from "node:fs";
 import { ObjectDetectionRequest } from "@/lib/types/object-detection/request";
 import { ObjectDetectionResponse } from "@/lib/types/object-detection/response";
 import { IClientConfig } from "@/lib/types/common/client-config";
-import { ObjectDetectionModels } from "@/lib/models/model-names";
 
 export class ObjectDetection extends BaseModel {
   constructor(
-    modelName: ObjectDetectionModels,
+    modelName: string,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {

@@ -2,11 +2,10 @@ import { BaseModel } from "@/lib/models/base";
 import { EmbeddingsRequest } from "@/lib/types/embeddings/request";
 import { EmbeddingsResponse } from "@/lib/types/embeddings/response";
 import { IClientConfig } from "@/lib/types/common/client-config";
-import { EmbeddingsModels } from "@/lib/models/model-names/embeddings";
 
 export class Embeddings extends BaseModel {
   constructor(
-    modelName: EmbeddingsModels,
+    modelName: string,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {
