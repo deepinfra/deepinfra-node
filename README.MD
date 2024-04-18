@@ -24,36 +24,19 @@ npm install deepinfra-api
 
 ## Usage
 
-### Use dolphin-2.6-mixtral-8x7b
+### Use [text generation models](https://deepinfra.com/models/text-generation)
 
-The Dolphin 2.6 Mixtral 8x7b model, uncensored and trained on diverse datasets including coding, excels at programming
-tasks and general conversation.
-
-```typescript
-import {Dolphin} from "deepinfra-api";
-
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
-const dolphin = new Dolphin(apiKey);
-const body = {
-  input: "[INST] Say hi [/INST]"
-}
-const output = await dolphin.generate(body);
-const text = output.results[0].generated_text;
-console.log(text);
-```
-
-### Use Mixtral-8x7B-Instruct-v0.1
 
 The Mixtral mixture of expert model, developed by Mistral AI, is an innovative experimental machine learning model that
 leverages a mixture of 8 experts (MoE) within 7b models. Its release was facilitated via a torrent, and the model's
-implementation remains in the experimental phase.
+implementation remains in the experimental phase._
 
 ```typescript
 import {Mixtral} from "deepinfra-api";
-
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const modelName = "mistralai/Mixtral-8x22B-Instruct-v0.1";
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const main = async () => {
-  const mixtral = new Mixtral(apiKey);
+  const mixtral = new Mixtral(Mixtral,apiKey);
   const body = {
     input: "What is the capital of France?"
   }
@@ -65,14 +48,15 @@ const main = async () => {
 main();
 ```
 
-### Use gte-base
-
+### Use [text embedding models](https://deepinfra.com/models/embeddings)
+Gte Base is an text embedding model that generates embeddings for the input text. The model is trained by Alibaba DAMO Academy.
 ```typescript
 import {GteBase} from "deepinfra-api";
 
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "thenlper/gte-base";
 const main = async () => {
-  const gteBase = new GteBase(apiKey);
+  const gteBase = new Embeddings(modelName,apiKey);
   const body = {
     inputs: [
       "What is the capital of France?",
@@ -88,14 +72,14 @@ const main = async () => {
 main();
 ```
 
-### Use SDXL to generate images
-
+### Use [SDXL](https://deepinfra.com/stability-ai/sdxl) to generate images
+SDXL requires unique parameters, therefore it requires different initialization.
 ```typescript
 import {Sdxl} from "deepinfra-api";
 import axios from "axios";
 import fs from "fs";
 
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
 
 const main = async () => {
   const model = new Sdxl(apiKey);
@@ -103,7 +87,7 @@ const main = async () => {
   const input = {
     prompt: 'The quick brown fox jumps over the lazy dog with'
   };
-  const response = await model.generate(input);
+  const response = await model.generate({input});
   const {output} = response;
   const image = output[0];
 
@@ -115,14 +99,43 @@ const main = async () => {
 main();
 ```
 
-### Use Whisper Large to generate captions from audios
+### Use [other text to image models](https://deepinfra.com/models/text-to-image)
 
 ```typescript
-import {WhisperLarge} from "deepinfra-api";
+import {TextToImage} from "deepinfra-api";
+import axios from "axios";
+import fs from "fs";
 
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "stabilityai/stable-diffusion-2-1";
 const main = async () => {
-  const model = new WhisperLarge(apiKey);
+  const model = new TextToImage(modelName,apiKey);
+  const input = {
+    prompt: 'The quick brown fox jumps over the lazy dog with'
+  };
+  
+  const response = await model.generate(input);
+  const {output} = response;
+  const image = output[0];
+  
+  await axios.get(image, {responseType: 'arraybuffer'}).then((response) => {
+    fs.writeFileSync('image.png', response.data);
+  });
+  
+}
+main();
+```
+
+### Use [automatic speech recognition models](https://deepinfra.com/models/automatic-speech-recognition) 
+
+```typescript
+import {AutomaticSpeechRecognition} from "deepinfra-api";
+
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "openai/whisper-base"
+
+const main = async () => {
+  const model = new AutomaticSpeechRecognition(modelName,apiKey);
 
   const input = {
     audio: path.join(__dirname, 'audio.mp3')
@@ -135,14 +148,15 @@ const main = async () => {
 main();
 ```
 
-### Use Yolos Base to generate object detection results
+### Use [object detection models](https://deepinfra.com/models/object-detection)
 
 ```typescript
-import {YolosBase} from "deepinfra-api";
+import {ObjectDetection} from "deepinfra-api";
 
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "hustvl/yolos-tiny";
 const main = async () => {
-  const model = new YolosBase(apiKey);
+  const model = new ObjectDetection(modelName,apiKey);
 
   const input = {
     image: path.join(__dirname, 'image.jpg')
@@ -154,15 +168,16 @@ const main = async () => {
 
 ```
 
-### Generate token classification results using a BERT model
+### Use [token classification models](https://deepinfra.com/models/token-classification)
 
 ```typescript
-import {BertBaseNer} from "deepinfra-api";
+import {TokenClassification} from "deepinfra-api";
 
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "Davlan/bert-base-multilingual-cased-ner-hrl";
 
 const main = async () => {
-  const model = new BertBaseNer(apiKey);
+  const model = new TokenClassification(modelName,apiKey);
 
   const input = {
     text: 'The quick brown fox jumps over the lazy dog'
@@ -173,15 +188,16 @@ const main = async () => {
 }
 ```
 
-### Generate fill-mask results in Dutch using a BERT model
+### Use [fill mask models](https://deepinfra.com/models/fill-mask)
 
 ```typescript
-import {BertBaseDutchCased} from 'deepinfra-api';
+import {FillMask} from 'deepinfra-api';
 
-const apiKey = "YOUR_DEEP_INFRA_API_KEY";
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "GroNLP/bert-base-dutch-cased";
 
 const main = async () => {
-  const model = new BertBaseDutchCased(apiKey);
+  const model = new FillMask(modelName,apiKey);
 
   const body = {
     input: 'Ik heb een [MASK] gekocht.',
@@ -192,14 +208,16 @@ const main = async () => {
 }
 ```
 
-### Generate financial sentiment analysis results using a BERT model
+### Use [text classification models](https://deepinfra.com/models/text-classification)
 
 ```typescript
-import {FinBert} from 'deepinfra-api';
-const apiKey = String(process.env.DEEP_INFRA_API_KEY);
+import {TextClassification} from 'deepinfra-api';
+
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "ProsusAI/finbert";
 
 const misc = async () => {
-  const model = new FinBert(apiKey);
+  const model = new TextClassification(apiKey);
 
   const body = {
     input: 'DeepInfra emerges from stealth with $8M to make running AI inferences more affordable',
@@ -211,9 +229,11 @@ const misc = async () => {
 };
 ```
 
-## Author
+## Contributors
 
-[Oguz Vuruskaner](https://www.oguzvuruskaner.com) - Core Developer
+[Oguz Vuruskaner](https://github.com/ovuruska)
+
+[Iskren Ivov Chernev](https://github.com/ichernev)
 
 ## Contributing
 
