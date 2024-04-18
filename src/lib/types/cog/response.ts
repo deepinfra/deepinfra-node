@@ -1,6 +1,6 @@
-import { CogRequest } from './request';
+import { CogRequest } from "./request";
 
-export type CogStatus = 'succeeded' | 'failed';
+export type CogStatus = "succeeded" | "failed";
 export interface CogResponse<Req, Res> extends CogRequest<Req> {
   status: CogStatus;
   created_at: string | null;

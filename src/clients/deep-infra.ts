@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { USER_AGENT } from '@/lib/constants/client';
-import { ClientConfig, IClientConfig } from '@/lib/types/common/client-config';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { USER_AGENT } from "@/lib/constants/client";
+import { ClientConfig, IClientConfig } from "@/lib/types/common/client-config";
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
@@ -30,9 +30,9 @@ export class DeepInfraClient {
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     const headers = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${this.authToken}`,
-      'User-Agent': USER_AGENT,
+      "User-Agent": USER_AGENT,
     };
     for (let attempt = 0; attempt <= this.clientConfig.maxRetries; attempt++) {
       try {
@@ -48,6 +48,6 @@ export class DeepInfraClient {
         }
       }
     }
-    throw new Error('Maximum retries exceeded');
+    throw new Error("Maximum retries exceeded");
   }
 }

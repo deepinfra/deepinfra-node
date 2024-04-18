@@ -1,4 +1,4 @@
-import { Status } from '@/lib/types/common/status';
+import { Status } from "@/lib/types/common/status";
 
 interface AutomaticSpeechRecognitionWord {
   text: string;
