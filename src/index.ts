@@ -1,1 +1,1 @@
-export * from "@/lib/models/base";
+export * from '@/lib/models/base';

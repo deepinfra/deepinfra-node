@@ -1,7 +1,7 @@
-import { TextClassificationRequest } from "@/lib/types/text-classification/request";
-import { TextClassificationResponse } from "@/lib/types/text-classification/response";
-import { CustomModel } from "@/lib/models/base/custom-model";
-import { IClientConfig } from "@/lib/types/common/client-config";
+import { TextClassificationRequest } from '@/lib/types/text-classification/request';
+import { TextClassificationResponse } from '@/lib/types/text-classification/response';
+import { CustomModel } from '@/lib/models/base/custom-model';
+import { IClientConfig } from '@/lib/types/common/client-config';
 
 export class TextClassification extends CustomModel<
   TextClassificationRequest,
@@ -9,7 +9,7 @@ export class TextClassification extends CustomModel<
 > {
   constructor(
     modelName: string,
-    authToken: string,
+    authToken?: string,
     config?: Partial<IClientConfig>,
   ) {
     super(modelName, authToken, config);

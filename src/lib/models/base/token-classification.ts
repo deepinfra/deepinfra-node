@@ -1,7 +1,7 @@
-import { CustomModel } from "@/lib/models/base/custom-model";
-import { FillMaskRequest } from "@/lib/types/token-classification/request";
-import { TokenClassificationResponse } from "@/lib/types/token-classification/response";
-import { IClientConfig } from "@/lib/types/common/client-config";
+import { CustomModel } from '@/lib/models/base/custom-model';
+import { FillMaskRequest } from '@/lib/types/token-classification/request';
+import { TokenClassificationResponse } from '@/lib/types/token-classification/response';
+import { IClientConfig } from '@/lib/types/common/client-config';
 
 export class TokenClassification extends CustomModel<
   FillMaskRequest,
@@ -9,7 +9,7 @@ export class TokenClassification extends CustomModel<
 > {
   constructor(
     modelName: string,
-    authToken: string,
+    authToken?: string,
     config?: Partial<IClientConfig>,
   ) {
     super(modelName, authToken, config);
