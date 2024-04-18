@@ -14,7 +14,7 @@ import { ROOT_URL } from "@/lib/constants/client";
 import { TextToImage } from "@/index";
 
 describe("TextToImage", () => {
-  const modelName = "stability-ai/sdxl";
+  const modelName = "runwayml/stable-diffusion-v1-5";
   const apiKey = "your-api-key";
   let model: TextToImage;
 
