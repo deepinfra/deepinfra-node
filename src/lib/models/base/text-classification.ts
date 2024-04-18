@@ -3,15 +3,15 @@ import { TextClassificationResponse } from "@/lib/types/text-classification/resp
 import { CustomModel } from "@/lib/models/base/custom-model";
 import { IClientConfig } from "@/lib/types/common/client-config";
 
-export class TextClassificationBaseModel extends CustomModel<
+export class TextClassification extends CustomModel<
   TextClassificationRequest,
   TextClassificationResponse
 > {
-  protected constructor(
-    protected endpoint: string,
-    protected authToken: string,
+  constructor(
+    modelName: string,
+    authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 }

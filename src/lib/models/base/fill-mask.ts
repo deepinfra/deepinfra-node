@@ -3,15 +3,15 @@ import { FillMaskRequest } from "@/lib/types/token-classification/request";
 import { TokenClassificationResponse } from "@/lib/types/token-classification/response";
 import { IClientConfig } from "@/lib/types/common/client-config";
 
-export class FillMaskBaseModel extends CustomModel<
+export class FillMask extends CustomModel<
   FillMaskRequest,
   TokenClassificationResponse
 > {
-  protected constructor(
-    protected endpoint: string,
-    protected authToken: string,
+  constructor(
+    modelName: string,
+    authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 }

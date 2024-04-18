@@ -3,13 +3,13 @@ import { BaseModel } from "@/lib/models/base/base-model";
 import * as fs from "node:fs";
 import { IClientConfig } from "@/lib/types/common/client-config";
 
-export abstract class AutomaticSpeechRecognitionBaseModel extends BaseModel {
-  protected constructor(
-    endpoint: string,
+export class AutomaticSpeechRecognition extends BaseModel {
+  constructor(
+    modelName: string,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 
   async generate(

@@ -6,11 +6,11 @@ export abstract class CustomModel<
   Response extends object,
 > extends BaseModel {
   protected constructor(
-    endpoint: string,
+    modelName: string,
     authToken: string,
     config?: Partial<IClientConfig>,
   ) {
-    super(endpoint, authToken, config);
+    super(modelName, authToken, config);
   }
 
   public async generate(body: Request): Promise<Response> {
