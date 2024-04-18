@@ -38,4 +38,15 @@ describe("TokenClassification", () => {
       expect.any(Object),
     );
   });
+
+  it("should throw error if DEEPINFRA_API_KEY is not set", () => {
+    expect(() => new TokenClassification(modelName)).toThrow();
+  });
+
+  it("should be constructed with an API key", () => {
+    process.env.DEEPINFRA_API_KEY = apiKey
+    const model = new TokenClassification(modelName);
+    expect(model).toBeDefined();
+    process.env.DEEPINFRA_API_KEY = ""
+  });
 });
