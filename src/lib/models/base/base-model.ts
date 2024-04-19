@@ -16,17 +16,19 @@ export class BaseModel {
     this.endpoint = URLUtils.isValidUrl(modelName)
       ? modelName
       : ROOT_URL + modelName;
-    this.authToken = authToken || this.getAuthTokenFromEnv();
+    this.authToken = authToken || this.getAuthTokenFromEnv() || this.warnAboutMissingApiKey();
     this.client = new DeepInfraClient(this.endpoint, this.authToken, config);
+  }
+
+  private warnAboutMissingApiKey() {
+    console.warn(
+      "API key is not provided. Please provide an API key as an argument or set DEEPINFRA_API_KEY environment variable.",
+    );
+    return "";
   }
 
   private getAuthTokenFromEnv() {
     const apiKey = process.env.DEEPINFRA_API_KEY;
-    if (!apiKey) {
-      console.warn(
-        "API key is not provided. Please provide an API key as an argument or set DEEPINFRA_API_KEY environment variable.",
-      );
-    }
     return apiKey || "";
   }
 }
