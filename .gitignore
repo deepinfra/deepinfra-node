@@ -144,3 +144,4 @@ docs
 dist
 **misc.ts
 docs
+.husky
