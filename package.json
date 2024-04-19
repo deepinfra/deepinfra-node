@@ -12,6 +12,7 @@
     "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts",
     "prepare": "husky",
     "test": "jest --passWithNoTests",
+    "test:e2e": "jest --config=jest.e2e.config.js --passWithNoTests --runInBand",
     "lint": "eslint . --ext .ts --fix",
     "prettier": "prettier --write ./src ./test",
     "build-docs": "typedoc --out docs src",

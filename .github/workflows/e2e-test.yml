@@ -1,0 +1,32 @@
+name: Run E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI: true
+  DEEPINFRA_API_KEY: ${{ secrets.DEEPINFRA_API_KEY }}
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - run: pnpm install
+      - run: pnpm run test:e2e
+      - run: pnpm run build
+
