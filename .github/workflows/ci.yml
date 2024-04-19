@@ -9,11 +9,12 @@ on:
       - '**'
 
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.ref }}-unit-tests
   cancel-in-progress: true
 
 jobs:
-  publish-npm:
+  unit-tests:
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
