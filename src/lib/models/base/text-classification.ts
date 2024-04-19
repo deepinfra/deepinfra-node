@@ -9,7 +9,7 @@ export class TextClassification extends CustomModel<
 > {
   constructor(
     modelName: string,
-    authToken: string,
+    authToken?: string,
     config?: Partial<IClientConfig>,
   ) {
     super(modelName, authToken, config);

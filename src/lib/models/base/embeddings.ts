@@ -6,7 +6,7 @@ import { IClientConfig } from "@/lib/types/common/client-config";
 export class Embeddings extends BaseModel {
   constructor(
     modelName: string,
-    authToken: string,
+    authToken?: string,
     config?: Partial<IClientConfig>,
   ) {
     super(modelName, authToken, config);

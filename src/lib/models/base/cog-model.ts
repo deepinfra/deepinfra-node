@@ -7,7 +7,7 @@ import { IClientConfig } from "@/lib/types/common/client-config";
 export class CogBaseModel<CogIn, CogOut> extends BaseModel {
   constructor(
     protected endpoint: string,
-    authToken: string,
+    authToken?: string,
     config?: Partial<IClientConfig>,
   ) {
     super(endpoint, authToken, config);

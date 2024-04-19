@@ -7,7 +7,7 @@ export abstract class CustomModel<
 > extends BaseModel {
   protected constructor(
     modelName: string,
-    authToken: string,
+    authToken?: string,
     config?: Partial<IClientConfig>,
   ) {
     super(modelName, authToken, config);

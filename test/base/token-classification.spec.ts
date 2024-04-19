@@ -38,4 +38,18 @@ describe("TokenClassification", () => {
       expect.any(Object),
     );
   });
+
+  it("should write to console if DEEPINFRA_API_KEY is not set", () => {
+    const consoleSpy = jest.spyOn(console, "warn");
+    const model = new TokenClassification(modelName);
+    expect(model).toBeDefined();
+    expect(consoleSpy).toHaveBeenCalled();
+  });
+
+  it("should be constructed with an API key", () => {
+    process.env.DEEPINFRA_API_KEY = apiKey;
+    const model = new TokenClassification(modelName);
+    expect(model).toBeDefined();
+    process.env.DEEPINFRA_API_KEY = "";
+  });
 });
