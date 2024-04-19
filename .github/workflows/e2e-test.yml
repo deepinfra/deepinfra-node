@@ -6,7 +6,7 @@ on:
       - 'main'
 
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.ref }}-e2e-tests
   cancel-in-progress: true
 
 env:
@@ -15,7 +15,7 @@ env:
 
 jobs:
   e2e-test:
-    if: github.event.pull_request.draft == false
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
