@@ -1,8 +1,8 @@
 const postMock = jest
   .fn()
-  .mockResolvedValue({ data: { transcription: "example text" } });
+  .mockResolvedValue({ data: { transcription: 'example text' } });
 
-jest.mock("axios", () => {
+jest.mock('axios', () => {
   const mockAxiosInstance = {
     post: postMock,
   };
@@ -10,25 +10,25 @@ jest.mock("axios", () => {
     create: jest.fn(() => mockAxiosInstance),
   };
 });
-import { ROOT_URL } from "@/lib/constants/client";
-import { TokenClassification } from "@/index";
+import { ROOT_URL } from '@/lib/constants/client';
+import { TokenClassification } from '@/index';
 
-describe("TokenClassification", () => {
-  const modelName = "Davlan/bert-base-multilingual-cased-ner-hrl";
-  const apiKey = "your-api-key";
+describe('TokenClassification', () => {
+  const modelName = 'Davlan/bert-base-multilingual-cased-ner-hrl';
+  const apiKey = 'your-api-key';
   let model: TokenClassification;
 
   beforeAll(() => {
     model = new TokenClassification(modelName, apiKey);
   });
 
-  it("should create a new instance", () => {
+  it('should create a new instance', () => {
     expect(model).toBeInstanceOf(TokenClassification);
   });
 
-  it("should send a request to correct URL", async () => {
+  it('should send a request to correct URL', async () => {
     const response = await model.generate({
-      input: "The quick brown fox jumps over the lazy dog",
+      input: 'The quick brown fox jumps over the lazy dog',
     });
 
     expect(response).toBeDefined();
@@ -39,14 +39,17 @@ describe("TokenClassification", () => {
     );
   });
 
-  it("should throw error if DEEPINFRA_API_KEY is not set", () => {
-    expect(() => new TokenClassification(modelName)).toThrow();
-  });
-
-  it("should be constructed with an API key", () => {
-    process.env.DEEPINFRA_API_KEY = apiKey
+  it('should write to console if DEEPINFRA_API_KEY is not set', () => {
+    const consoleSpy = jest.spyOn(console, 'warn');
     const model = new TokenClassification(modelName);
     expect(model).toBeDefined();
-    process.env.DEEPINFRA_API_KEY = ""
+    expect(consoleSpy).toHaveBeenCalled();
+  });
+
+  it('should be constructed with an API key', () => {
+    process.env.DEEPINFRA_API_KEY = apiKey;
+    const model = new TokenClassification(modelName);
+    expect(model).toBeDefined();
+    process.env.DEEPINFRA_API_KEY = '';
   });
 });

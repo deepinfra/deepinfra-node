@@ -1,4 +1,4 @@
-export type WebhookEventType = "start" | "output" | "logs" | "completed";
+export type WebhookEventType = 'start' | 'output' | 'logs' | 'completed';
 
 export interface CogRequest<Req> {
   id?: string;

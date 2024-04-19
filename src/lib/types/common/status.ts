@@ -1,5 +1,5 @@
 export interface Status {
-  status: "unknown" | "queued" | "running" | "succeeded" | "failed";
+  status: 'unknown' | 'queued' | 'running' | 'succeeded' | 'failed';
   runtime_ms: number;
   cost: number;
   tokens_generated: number;

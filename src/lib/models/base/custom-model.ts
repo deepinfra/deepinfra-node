@@ -1,5 +1,5 @@
-import { BaseModel } from "@/lib/models/base/base-model";
-import { IClientConfig } from "@/lib/types/common/client-config";
+import { BaseModel } from '@/lib/models/base/base-model';
+import { IClientConfig } from '@/lib/types/common/client-config';
 
 export abstract class CustomModel<
   Request extends object,

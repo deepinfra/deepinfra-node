@@ -1,8 +1,8 @@
-import { DeepInfraClient } from "@/clients";
-import { IClientConfig } from "@/lib/types/common/client-config";
+import { DeepInfraClient } from '@/clients';
+import { IClientConfig } from '@/lib/types/common/client-config';
 
-import { ROOT_URL } from "@/lib/constants/client";
-import { URLUtils } from "@/lib/utils/url";
+import { ROOT_URL } from '@/lib/constants/client';
+import { URLUtils } from '@/lib/utils/url';
 
 export class BaseModel {
   protected client: DeepInfraClient;
@@ -23,8 +23,10 @@ export class BaseModel {
   private getAuthTokenFromEnv() {
     const apiKey = process.env.DEEPINFRA_API_KEY;
     if (!apiKey) {
-      throw new Error("API key is missing");
+      console.warn(
+        'API key is not provided. Please provide an API key as an argument or set DEEPINFRA_API_KEY environment variable.',
+      );
     }
-    return apiKey;
+    return apiKey || '';
   }
 }

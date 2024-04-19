@@ -2,7 +2,7 @@ import {
   INITIAL_BACKOFF,
   MAX_RETRIES,
   SUBSEQUENT_BACKOFF,
-} from "@/lib/constants/client";
+} from '@/lib/constants/client';
 
 export interface IClientConfig {
   maxRetries: number;

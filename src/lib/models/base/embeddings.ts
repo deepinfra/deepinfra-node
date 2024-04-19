@@ -1,7 +1,7 @@
-import { BaseModel } from "@/lib/models/base";
-import { EmbeddingsRequest } from "@/lib/types/embeddings/request";
-import { EmbeddingsResponse } from "@/lib/types/embeddings/response";
-import { IClientConfig } from "@/lib/types/common/client-config";
+import { BaseModel } from '@/lib/models/base';
+import { EmbeddingsRequest } from '@/lib/types/embeddings/request';
+import { EmbeddingsResponse } from '@/lib/types/embeddings/response';
+import { IClientConfig } from '@/lib/types/common/client-config';
 
 export class Embeddings extends BaseModel {
   constructor(
@@ -21,7 +21,7 @@ export class Embeddings extends BaseModel {
       }
       return data;
     } catch (error) {
-      console.error("Error generating embeddings:", error);
+      console.error('Error generating embeddings:', error);
       throw error;
     }
   }
