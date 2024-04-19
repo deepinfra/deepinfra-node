@@ -1,6 +1,0 @@
-npm run lint
-npm run prettier
-npm run build
-npm run test
-
-exec < /dev/tty && git cz --hook || true
