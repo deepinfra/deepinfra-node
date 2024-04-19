@@ -12,6 +12,7 @@
     "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts",
     "prepare": "husky",
     "test": "jest --passWithNoTests",
+    "test:e2e": "jest --config=jest.e2e.config.js --passWithNoTests --runInBand",
     "lint": "eslint . --ext .ts --fix",
     "prettier": "prettier --write ./src ./test",
     "build-docs": "typedoc --out docs src",
@@ -40,7 +41,8 @@
   "dependencies": {
     "@swc/core": "^1.4.6",
     "@swc/wasm": "^1.4.6",
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "p-limit": "^5.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
