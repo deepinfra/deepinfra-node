@@ -17,10 +17,10 @@ export class ImageClassification extends BaseModel {
     body: ImageClassificationRequest,
   ): Promise<ImageClassificationResponse> {
     const { image } = body;
-    const base64Audio = fs.readFileSync(image).toString("base64");
+    const base64Content = fs.readFileSync(image).toString("base64");
     const response = await this.client.post<ImageClassificationResponse>({
       ...body,
-      image: base64Audio,
+      image: base64Content,
     });
     return response.data;
   }

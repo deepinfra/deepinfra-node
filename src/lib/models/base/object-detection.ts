@@ -17,10 +17,10 @@ export class ObjectDetection extends BaseModel {
     body: ObjectDetectionRequest,
   ): Promise<ObjectDetectionResponse> {
     const { image } = body;
-    const base64Audio = fs.readFileSync(image).toString("base64");
+    const base64Content = fs.readFileSync(image).toString("base64");
     const response = await this.client.post<ObjectDetectionResponse>({
       ...body,
-      image: base64Audio,
+      image: base64Content,
     });
     return response.data;
   }
