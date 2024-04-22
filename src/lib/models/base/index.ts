@@ -10,3 +10,4 @@ export { FillMask } from "@/lib/models/base/fill-mask";
 export { TextClassification } from "@/lib/models/base/text-classification";
 export { QuestionAnswering } from "@/lib/models/base/question-answering";
 export { Sdxl } from "@/lib/models/base/sdxl";
+export { ImageClassification } from "@/lib/models/base/image-classification";
