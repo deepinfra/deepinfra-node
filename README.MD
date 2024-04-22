@@ -18,8 +18,19 @@ Check out the docs from [here.](https://ovuruska.github.io/deepinfra-api/)
 
 ## Installation
 
+### Install with npm
 ```bash
 npm install deepinfra-api
+```
+
+### Install with yarn
+```bash
+yarn add deepinfra-api
+```
+
+### Install with pnpm
+```bash
+pnpm add deepinfra-api
 ```
 
 ## Usage
