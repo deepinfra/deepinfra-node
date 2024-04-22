@@ -16,7 +16,8 @@ export class BaseModel {
     this.endpoint = URLUtils.isValidUrl(modelName)
       ? modelName
       : ROOT_URL + modelName;
-    this.authToken = authToken || this.getAuthTokenFromEnv() || this.warnAboutMissingApiKey();
+    this.authToken =
+      authToken || this.getAuthTokenFromEnv() || this.warnAboutMissingApiKey();
     this.client = new DeepInfraClient(this.endpoint, this.authToken, config);
   }
 
