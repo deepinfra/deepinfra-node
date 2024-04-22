@@ -1,4 +1,5 @@
 import { Status } from "@/lib/types/common/status";
+import { ImageItem } from "@/lib/types/common/image-item";
 
 export interface ObjectDetectionBox {
   xmin: number;
@@ -7,9 +8,7 @@ export interface ObjectDetectionBox {
   ymax: number;
 }
 
-export interface ObjectDetectionItem {
-  label: string;
-  score: number;
+export interface ObjectDetectionItem extends ImageItem {
   box: ObjectDetectionBox;
 }
 

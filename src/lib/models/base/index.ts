@@ -11,3 +11,4 @@ export { TextClassification } from "@/lib/models/base/text-classification";
 export { QuestionAnswering } from "@/lib/models/base/question-answering";
 export { Sdxl } from "@/lib/models/base/sdxl";
 export { ImageClassification } from "@/lib/models/base/image-classification";
+export { ZeroShotImageClassification } from "@/lib/models/base/zero-shot-image-classification";
