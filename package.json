@@ -38,8 +38,6 @@
   "author": "Oguz Vuruskaner <ovuruska@gmail.com> (https://www.oguzvuruskaner.com)",
   "license": "MIT",
   "dependencies": {
-    "@swc/core": "^1.4.6",
-    "@swc/wasm": "^1.4.6",
     "axios": "^1.6.7"
   },
   "devDependencies": {
