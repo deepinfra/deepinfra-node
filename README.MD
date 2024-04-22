@@ -113,20 +113,20 @@ const main = async () => {
   const input = {
     prompt: 'The quick brown fox jumps over the lazy dog with'
   };
-  
+
   const response = await model.generate(input);
   const {output} = response;
   const image = output[0];
-  
+
   await axios.get(image, {responseType: 'arraybuffer'}).then((response) => {
     fs.writeFileSync('image.png', response.data);
   });
-  
+
 }
 main();
 ```
 
-### Use [automatic speech recognition models](https://deepinfra.com/models/automatic-speech-recognition) 
+### Use [automatic speech recognition models](https://deepinfra.com/models/automatic-speech-recognition)
 
 ```typescript
 import {AutomaticSpeechRecognition} from "deepinfra-api";
@@ -207,6 +207,47 @@ const main = async () => {
   console.log(results);
 }
 ```
+
+### Use [image classification models](https://deepinfra.com/models/image-classification)
+```typescript
+import {ImageClassification} from 'deepinfra-api';
+
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "google/vit-base-patch16-224";
+
+const main = async () => {
+  const model = new ImageClassification(modelName,apiKey);
+
+  const body = {
+    image: path.join(__dirname, 'image.jpg')
+  };
+
+  const {results} = await model.generate(body);
+  console.log(results);
+}
+```
+
+### Use [zero-shot image classification models](https://deepinfra.com/models/zero-shot-image-classification)
+
+```typescript
+import {ZeroShotImageClassification} from 'deepinfra-api';
+
+const apiKey = "YOUR_DEEPINFRA_API_KEY";
+const modelName = "openai/clip-vit-base-patch32";
+
+const main = async () => {
+  const model = new ZeroShotImageClassification(modelName,apiKey);
+
+  const body = {
+    image: path.join(__dirname, 'image.jpg'),
+    candidate_labels: ['dog', 'cat', 'car']
+  };
+
+  const {results} = await model.generate(body);
+  console.log(results);
+}
+```
+
 
 ### Use [text classification models](https://deepinfra.com/models/text-classification)
 
