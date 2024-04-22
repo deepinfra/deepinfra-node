@@ -16,10 +16,10 @@ export class AutomaticSpeechRecognition extends BaseModel {
     body: AutomaticSpeechRecognitionRequest,
   ): Promise<AutomaticSpeechRecognitionRequest> {
     const { audio } = body;
-    const base64Audio = fs.readFileSync(audio).toString("base64");
+    const base64Content = fs.readFileSync(audio).toString("base64");
     const response = await this.client.post<AutomaticSpeechRecognitionRequest>({
       ...body,
-      audio: base64Audio,
+      audio: base64Content,
     });
     return response.data;
   }
