@@ -9,7 +9,7 @@ const main = async () => {
   const model = new ImageClassification(modelName, apiKey);
 
   const input = {
-    image: path.join(__dirname, 'cat.jpg'),
+    image: path.join(__dirname, 'image.jpg'),
   };
   const response = await model.generate(input);
   const {results} = response;
