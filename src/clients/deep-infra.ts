@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { USER_AGENT } from "@/lib/constants/client";
 import { ClientConfig, IClientConfig } from "@/lib/types/common/client-config";
+import FormData from "form-data";
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
@@ -29,11 +30,14 @@ export class DeepInfraClient {
     data: object,
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
+
+    const {formData, ...rest} = data as any;
     const headers = {
-      "Content-Type": "application/json",
+      ...formData.getHeaders(),
       Authorization: `Bearer ${this.authToken}`,
       "User-Agent": USER_AGENT,
     };
+
     for (let attempt = 0; attempt <= this.clientConfig.maxRetries; attempt++) {
       try {
         return await this.axiosClient.post(this.url, data, {
@@ -41,6 +45,7 @@ export class DeepInfraClient {
           ...config,
         });
       } catch (error) {
+        console.error(error);
         if (attempt < this.clientConfig.maxRetries) {
           await this.backoffDelay(attempt);
         } else {

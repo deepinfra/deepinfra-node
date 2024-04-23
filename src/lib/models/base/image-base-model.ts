@@ -2,6 +2,7 @@ import fs from "node:fs";
 import { BaseModel } from "@/lib/models/base/base-model";
 import { IClientConfig } from "@/lib/types/common/client-config";
 import { ImageRequest } from "@/lib/types/common/image-request";
+import FormData from "form-data";
 
 export class ImageBaseModel<
   RequestType extends ImageRequest,
@@ -16,11 +17,12 @@ export class ImageBaseModel<
   }
 
   async generate(body: RequestType): Promise<ResponseType> {
-    const { image } = body;
-    const base64Content = fs.readFileSync(image).toString("base64");
+    const { image,...rest } = body;
+    const formData = new FormData();
+    formData.append("image", fs.createReadStream(image));
     const response = await this.client.post<ResponseType>({
-      ...body,
-      image: base64Content,
+      ...rest,
+      formData,
     });
     return response.data;
   }

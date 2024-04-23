@@ -142,6 +142,7 @@ dist
 
 docs
 dist
-**misc.ts
+# TODO: Enable this before PR.
+# **misc.ts
 docs
 .husky
