@@ -30,10 +30,10 @@ export class ImageBaseModel<
     const { image } = body;
     const formData = new FormData();
     formData.append("image", fs.createReadStream(image));
-    const response = await this.client.post<ResponseType>(formData,{
+    const response = await this.client.post<ResponseType>(formData, {
       headers: {
         ...formData.getHeaders(),
-      }
+      },
     });
     return response.data;
   }
