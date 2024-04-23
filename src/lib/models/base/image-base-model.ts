@@ -17,15 +17,23 @@ export class ImageBaseModel<
   }
 
   async generate(body: RequestType): Promise<ResponseType> {
-    const { image,...rest } = body;
+    const { image } = body;
+    const base64Content = fs.readFileSync(image).toString("base64");
+    const response = await this.client.post<ResponseType>({
+      ...body,
+      image: base64Content,
+    });
+    return response.data;
+  }
+
+  async generateWithFormData(body: RequestType): Promise<ResponseType> {
+    const { image } = body;
     const formData = new FormData();
     formData.append("image", fs.createReadStream(image));
-    const response = await this.client.post<ResponseType>(
-      formData,
-      {
+    const response = await this.client.post<ResponseType>(formData,{
       headers: {
         ...formData.getHeaders(),
-      },
+      }
     });
     return response.data;
   }

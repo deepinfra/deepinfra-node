@@ -45,8 +45,6 @@ export class DeepInfraClient {
           headers,
         });
       } catch (error) {
-        // @ts-ignore
-        console.error(JSON.stringify(error.response.data));
         if (attempt < this.clientConfig.maxRetries) {
           await this.backoffDelay(attempt);
         } else {
