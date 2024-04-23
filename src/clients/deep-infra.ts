@@ -31,21 +31,22 @@ export class DeepInfraClient {
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
 
-    const {formData, ...rest} = data as any;
     const headers = {
-      ...formData.getHeaders(),
-      Authorization: `Bearer ${this.authToken}`,
       "User-Agent": USER_AGENT,
+      "Content-Type": "application/json",
+      ...config?.headers,
+      Authorization: `Bearer ${this.authToken}`,
     };
 
     for (let attempt = 0; attempt <= this.clientConfig.maxRetries; attempt++) {
       try {
         return await this.axiosClient.post(this.url, data, {
-          headers,
           ...config,
+          headers,
         });
       } catch (error) {
-        console.error(error);
+        // @ts-ignore
+        console.error(JSON.stringify(error.response.data));
         if (attempt < this.clientConfig.maxRetries) {
           await this.backoffDelay(attempt);
         } else {
