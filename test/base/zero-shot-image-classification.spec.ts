@@ -1,9 +1,6 @@
 const postMock = jest
   .fn()
   .mockResolvedValue({ data: { transcription: "example text" } });
-jest.mock("node:fs", () => ({
-  readFileSync: jest.fn(),
-}));
 jest.mock("axios", () => {
   const mockAxiosInstance = {
     post: postMock,
@@ -26,10 +23,6 @@ describe("ZeroShotImageClassification", () => {
     model = new ZeroShotImageClassification(modelName, apiKey);
   });
 
-  beforeEach(() => {
-    jest.spyOn(fs, "readFileSync").mockReturnValue(fakeFileBuffer);
-  });
-
   it("should create a new instance", () => {
     expect(model).toBeInstanceOf(ZeroShotImageClassification);
   });
@@ -40,6 +33,19 @@ describe("ZeroShotImageClassification", () => {
       candidate_labels: ["dog", "cat"],
     });
 
+    expect(response).toBeDefined();
+    expect(postMock).toHaveBeenCalledWith(
+      `${ROOT_URL}${modelName}`,
+      expect.any(Object),
+      expect.any(Object),
+    );
+  });
+
+  it("should send a request with base64 image", async () => {
+    const response = await model.generate({
+      image: fakeFileBuffer as Buffer,
+      candidate_labels: ["dog", "cat"],
+    });
     expect(response).toBeDefined();
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,

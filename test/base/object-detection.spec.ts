@@ -1,9 +1,6 @@
 const postMock = jest
   .fn()
   .mockResolvedValue({ data: { transcription: "example text" } });
-jest.mock("node:fs", () => ({
-  readFileSync: jest.fn(),
-}));
 jest.mock("axios", () => {
   const mockAxiosInstance = {
     post: postMock,
@@ -24,10 +21,6 @@ describe("ObjectDetection", () => {
 
   beforeAll(() => {
     model = new ObjectDetection(modelName, apiKey);
-  });
-
-  beforeEach(() => {
-    jest.spyOn(fs, "readFileSync").mockReturnValue(fakeFileBuffer);
   });
 
   it("should create a new instance", () => {
