@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import { BaseModel } from "@/lib/models/base/base-model";
 import { IClientConfig } from "@/lib/types/common/client-config";
 import { ImageRequest } from "@/lib/types/common/image-request";

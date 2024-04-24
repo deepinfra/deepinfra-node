@@ -1,6 +1,5 @@
 import { AutomaticSpeechRecognitionRequest } from "@/lib/types/automatic-speech-recognition/request";
 import { BaseModel } from "@/lib/models/base/base-model";
-import * as fs from "node:fs";
 import { IClientConfig } from "@/lib/types/common/client-config";
 import FormData from "form-data";
 import { AutomaticSpeechRecognitionResponse } from "@/lib/types/automatic-speech-recognition/response";
