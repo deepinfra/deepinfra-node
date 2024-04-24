@@ -18,11 +18,9 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-      - run: pnpm install
-      - run: pnpm run test
-      - run: pnpm run build
+      - run: npm install
+      - run: npm run test
+      - run: npm run build
 
       - run: npm version --allow-same-version --no-git-tag-version ${{ github.event.release.tag_name }}
 
