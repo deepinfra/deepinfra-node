@@ -4,6 +4,7 @@ import { IClientConfig } from "@/lib/types/common/client-config";
 import FormData from "form-data";
 import { AutomaticSpeechRecognitionResponse } from "@/lib/types/automatic-speech-recognition/response";
 import {ReadStreamUtils} from "@/lib/utils/read-stream";
+import {FormDataUtil} from "@/lib/utils/form-data";
 
 export class AutomaticSpeechRecognition extends BaseModel {
   constructor(
@@ -17,13 +18,7 @@ export class AutomaticSpeechRecognition extends BaseModel {
   async generate(
     body: AutomaticSpeechRecognitionRequest,
   ): Promise<AutomaticSpeechRecognitionResponse> {
-    const { audio, ...rest } = body;
-    const formData = new FormData();
-    const readStream = await ReadStreamUtils.getReadStream(audio);
-    formData.append("audio", readStream);
-    Object.entries(rest).forEach(([key, value]) => {
-      formData.append(key, JSON.stringify(value));
-    });
+    const formData = await FormDataUtil.prepareFormData<AutomaticSpeechRecognitionRequest>(body, ["audio"]);
     const response = await this.client.post<AutomaticSpeechRecognitionResponse>(
       formData,
       {

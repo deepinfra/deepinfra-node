@@ -2,6 +2,10 @@ import fs from "node:fs";
 import axios from "axios";
 import { Readable } from "stream";
 
+/**
+ * The input types that can be converted to a ReadableStream.
+ * @alias ReadStreamInput
+ */
 export type ReadStreamInput = Buffer | string;
 
 /**
