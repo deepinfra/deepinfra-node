@@ -18,13 +18,20 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm install
-      - run: npm run test
-      - run: npm run build
+      - name: Install dependencies
+        run: npm install
 
-      - run: npm version --allow-same-version --no-git-tag-version ${{ github.event.release.tag_name }}
+      - name: Run unit tests
+        run: npm run test
 
-      - run: npm publish --access=public
+      - name: Build
+        run: npm run build
+
+      - name: Get the version
+        run: npm version --allow-same-version --no-git-tag-version ${{ github.event.release.tag_name }}
+
+      - name: Publish to NPM
+        run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
