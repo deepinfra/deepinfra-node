@@ -1,3 +1,8 @@
+/**
+ * This file is used in unit tests to mock the fs module.
+ *
+ */
+
 import * as originalFs from 'fs';
 
 type MockFiles = Record<string, string>;
@@ -18,11 +23,11 @@ function __setMockFiles(newMockFiles: MockFiles): void {
 }
 
 function readFileSync(filePath: string): string {
-  return mockFiles[filePath] || ""; // Return empty string if file does not exist
+  return mockFiles[filePath] || "";
 }
 
 function createReadStream(filePath: string): any {
-  return filePath; // Simplified to match your mock implementation
+  return filePath;
 }
 
 fs.__setMockFiles = __setMockFiles;
