@@ -1,4 +1,4 @@
-import {ReadStreamInput} from "@/lib/utils/read-stream";
+import { ReadStreamInput } from "@/lib/utils/read-stream";
 
 export interface AutomaticSpeechRecognitionRequest {
   audio: ReadStreamInput;

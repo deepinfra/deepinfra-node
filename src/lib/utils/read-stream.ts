@@ -16,7 +16,6 @@ export type ReadStreamInput = Buffer | string;
  */
 
 export const ReadStreamUtils = {
-
   /**
    * Creates a ReadableStream from a Buffer.
    * @param buffer - The Buffer to be streamed.
@@ -44,7 +43,7 @@ export const ReadStreamUtils = {
    * @returns A ReadableStream containing the image data.
    */
   async urlToStream(url: string): Promise<Readable> {
-    const response = await axios.get(url, { responseType: 'stream' });
+    const response = await axios.get(url, { responseType: "stream" });
     return response.data;
   },
 
@@ -55,7 +54,7 @@ export const ReadStreamUtils = {
    * @throws {Error} If the Base64 string is invalid.
    */
   base64ToStream(base64: string): Readable {
-    const buffer = Buffer.from(base64, 'base64');
+    const buffer = Buffer.from(base64, "base64");
     return this.bufferToStream(buffer);
   },
 
@@ -69,17 +68,17 @@ export const ReadStreamUtils = {
   async getReadStream(input: ReadStreamInput): Promise<Readable> {
     if (Buffer.isBuffer(input)) {
       return this.bufferToStream(input);
-    } else if (typeof input === 'string') {
-      if (input.startsWith('http')) {
+    } else if (typeof input === "string") {
+      if (input.startsWith("http")) {
         return this.urlToStream(input);
       } else if (input.match(/^data:image\/[a-zA-Z]+;base64,/)) {
-        const base64Data = input.split(',')[1];
+        const base64Data = input.split(",")[1];
         return this.base64ToStream(base64Data);
       } else {
         return this.fileToStream(input);
       }
     } else {
-      throw new Error('Invalid input type');
+      throw new Error("Invalid input type");
     }
-  }
-}
+  },
+};

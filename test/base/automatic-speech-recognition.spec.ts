@@ -26,7 +26,6 @@ describe("AutomaticSpeechRecognition", () => {
     model = new AutomaticSpeechRecognition(modelName, apiKey);
   });
 
-
   it("should create a new instance", () => {
     expect(model).toBeInstanceOf(AutomaticSpeechRecognition);
   });
@@ -55,5 +54,4 @@ describe("AutomaticSpeechRecognition", () => {
       expect.any(Object),
     );
   });
-
 });

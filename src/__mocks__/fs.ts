@@ -3,18 +3,19 @@
  *
  */
 
-import * as originalFs from 'fs';
+import * as originalFs from "fs";
 
 type MockFiles = Record<string, string>;
 
-interface CustomFs extends Omit<typeof originalFs, 'readFileSync' | 'createReadStream'> {
+interface CustomFs
+  extends Omit<typeof originalFs, "readFileSync" | "createReadStream"> {
   __setMockFiles: (newMockFiles: MockFiles) => void;
   readFileSync: (filePath: string, options?: object) => string;
   createReadStream: (filePath: string, options?: object) => any;
 }
 
-const fs: CustomFs = jest.createMockFromModule<CustomFs>('fs');
-jest.mock('node:fs', () => fs);
+const fs: CustomFs = jest.createMockFromModule<CustomFs>("fs");
+jest.mock("node:fs", () => fs);
 
 let mockFiles: MockFiles = Object.create(null);
 
