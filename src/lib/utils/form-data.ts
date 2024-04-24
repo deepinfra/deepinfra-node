@@ -12,7 +12,7 @@ export const FormDataUtils = {
    */
   async prepareFormData<T extends object>(
     data: T,
-    blobKeys: string[],
+    blobKeys: string[] = [],
   ): Promise<FormData> {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
