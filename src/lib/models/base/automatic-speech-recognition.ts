@@ -18,10 +18,13 @@ export class AutomaticSpeechRecognition extends BaseModel {
   async generate(
     body: AutomaticSpeechRecognitionRequest,
   ): Promise<AutomaticSpeechRecognitionResponse> {
-    const { audio } = body;
+    const { audio, ...rest } = body;
     const formData = new FormData();
     const readStream = await ReadStreamUtils.getReadStream(audio);
     formData.append("audio", readStream);
+    Object.entries(rest).forEach(([key, value]) => {
+      formData.append(key, JSON.stringify(value));
+    });
     const response = await this.client.post<AutomaticSpeechRecognitionResponse>(
       formData,
       {

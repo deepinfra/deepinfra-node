@@ -18,10 +18,13 @@ export class ImageBaseModel<
   }
 
   async generate(body: RequestType): Promise<ResponseType> {
-    const { image } = body;
+    const { image , ...rest} = body;
     const formData = new FormData();
     const readStream = await ReadStreamUtils.getReadStream(image);
     formData.append("image", readStream);
+    Object.entries(rest).forEach(([key, value]) => {
+      formData.append(key, JSON.stringify(value));
+    });
     const response = await this.client.post<ResponseType>(formData, {
       headers: {
         ...formData.getHeaders(),
