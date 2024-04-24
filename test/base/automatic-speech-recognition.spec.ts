@@ -2,18 +2,17 @@ const postMock = jest
   .fn()
   .mockResolvedValue({ data: { transcription: "example text" } });
 
-import * as fs from "node:fs";
 import { ROOT_URL } from "@/lib/constants/client";
 import { AutomaticSpeechRecognition } from "@/index";
+import FormData from "form-data";
 
-jest.mock("node:fs", () => ({
-  readFileSync: jest.fn(),
-}));
 jest.mock("axios", () => {
   const mockAxiosInstance = {
     post: postMock,
+    get: jest.fn().mockResolvedValue({ data: {} }),
   };
   return {
+    get: jest.fn(() => mockAxiosInstance),
     create: jest.fn(() => mockAxiosInstance),
   };
 });
@@ -22,14 +21,9 @@ describe("AutomaticSpeechRecognition", () => {
   const modelName = "openai/whisper-large";
   const apiKey = "your-api-key";
   let model: AutomaticSpeechRecognition;
-  const fakeFileBuffer = Buffer.from("This is a fake MP3 file", "utf8");
 
   beforeAll(() => {
     model = new AutomaticSpeechRecognition(modelName, apiKey);
-  });
-
-  beforeEach(() => {
-    jest.spyOn(fs, "readFileSync").mockReturnValue(fakeFileBuffer);
   });
 
   it("should create a new instance", () => {
@@ -44,8 +38,12 @@ describe("AutomaticSpeechRecognition", () => {
     expect(response).toBeDefined();
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
-      expect.any(Object),
-      expect.any(Object),
+      expect.any(FormData),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "content-type": expect.stringMatching(/multipart\/form-data/),
+        }),
+      }),
     );
   });
 });

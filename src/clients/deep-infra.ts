@@ -30,15 +30,17 @@ export class DeepInfraClient {
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${this.authToken}`,
+      "content-type": "application/json",
+      ...config?.headers,
       "User-Agent": USER_AGENT,
+      Authorization: `Bearer ${this.authToken}`,
     };
+
     for (let attempt = 0; attempt <= this.clientConfig.maxRetries; attempt++) {
       try {
         return await this.axiosClient.post(this.url, data, {
-          headers,
           ...config,
+          headers,
         });
       } catch (error) {
         if (attempt < this.clientConfig.maxRetries) {

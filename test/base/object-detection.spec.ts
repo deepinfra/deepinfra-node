@@ -1,9 +1,6 @@
 const postMock = jest
   .fn()
   .mockResolvedValue({ data: { transcription: "example text" } });
-jest.mock("node:fs", () => ({
-  readFileSync: jest.fn(),
-}));
 jest.mock("axios", () => {
   const mockAxiosInstance = {
     post: postMock,
@@ -12,22 +9,17 @@ jest.mock("axios", () => {
     create: jest.fn(() => mockAxiosInstance),
   };
 });
-import * as fs from "node:fs";
 import { ROOT_URL } from "@/lib/constants/client";
 import { ObjectDetection } from "@/index";
+import FormData from "form-data";
 
 describe("ObjectDetection", () => {
   const modelName = "hustvl/yolos-base";
   const apiKey = "your-api-key";
   let model: ObjectDetection;
-  const fakeFileBuffer = Buffer.from("This is a fake MP3 file", "utf8");
 
   beforeAll(() => {
     model = new ObjectDetection(modelName, apiKey);
-  });
-
-  beforeEach(() => {
-    jest.spyOn(fs, "readFileSync").mockReturnValue(fakeFileBuffer);
   });
 
   it("should create a new instance", () => {
@@ -42,8 +34,12 @@ describe("ObjectDetection", () => {
     expect(response).toBeDefined();
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
-      expect.any(Object),
-      expect.any(Object),
+      expect.any(FormData),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "content-type": expect.stringMatching(/multipart\/form-data/),
+        }),
+      }),
     );
   });
 });

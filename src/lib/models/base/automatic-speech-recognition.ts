@@ -1,7 +1,8 @@
 import { AutomaticSpeechRecognitionRequest } from "@/lib/types/automatic-speech-recognition/request";
 import { BaseModel } from "@/lib/models/base/base-model";
-import * as fs from "node:fs";
 import { IClientConfig } from "@/lib/types/common/client-config";
+import { AutomaticSpeechRecognitionResponse } from "@/lib/types/automatic-speech-recognition/response";
+import { FormDataUtils } from "@/lib/utils/form-data";
 
 export class AutomaticSpeechRecognition extends BaseModel {
   constructor(
@@ -14,13 +15,20 @@ export class AutomaticSpeechRecognition extends BaseModel {
 
   async generate(
     body: AutomaticSpeechRecognitionRequest,
-  ): Promise<AutomaticSpeechRecognitionRequest> {
-    const { audio } = body;
-    const base64Content = fs.readFileSync(audio).toString("base64");
-    const response = await this.client.post<AutomaticSpeechRecognitionRequest>({
-      ...body,
-      audio: base64Content,
-    });
+  ): Promise<AutomaticSpeechRecognitionResponse> {
+    const formData =
+      await FormDataUtils.prepareFormData<AutomaticSpeechRecognitionRequest>(
+        body,
+        ["audio"],
+      );
+    const response = await this.client.post<AutomaticSpeechRecognitionResponse>(
+      formData,
+      {
+        headers: {
+          ...formData.getHeaders(),
+        },
+      },
+    );
     return response.data;
   }
 }

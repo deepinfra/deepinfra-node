@@ -1,4 +1,6 @@
+import { ReadStreamInput } from "@/lib/utils/read-stream";
+
 export interface ImageRequest {
-  image: string;
+  image: ReadStreamInput;
   webhook?: string;
 }
