@@ -30,9 +30,9 @@ export class DeepInfraClient {
     config?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T>> {
     const headers = {
-      "User-Agent": USER_AGENT,
       "Content-Type": "application/json",
       ...config?.headers,
+      "User-Agent": USER_AGENT,
       Authorization: `Bearer ${this.authToken}`,
     };
 
