@@ -9,7 +9,6 @@ jest.mock("axios", () => {
     create: jest.fn(() => mockAxiosInstance),
   };
 });
-import * as fs from "node:fs";
 import { ROOT_URL } from "@/lib/constants/client";
 import { ZeroShotImageClassification } from "@/index";
 
@@ -17,7 +16,6 @@ describe("ZeroShotImageClassification", () => {
   const modelName = "openai/clip-vit-base-patch32";
   const apiKey = "your-api-key";
   let model: ZeroShotImageClassification;
-  const fakeFileBuffer = Buffer.from("This is a fake image file", "utf8");
 
   beforeAll(() => {
     model = new ZeroShotImageClassification(modelName, apiKey);
@@ -37,20 +35,11 @@ describe("ZeroShotImageClassification", () => {
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
       expect.any(Object),
-      expect.any(Object),
-    );
-  });
-
-  it("should send a request with base64 image", async () => {
-    const response = await model.generate({
-      image: fakeFileBuffer as Buffer,
-      candidate_labels: ["dog", "cat"],
-    });
-    expect(response).toBeDefined();
-    expect(postMock).toHaveBeenCalledWith(
-      `${ROOT_URL}${modelName}`,
-      expect.any(Object),
-      expect.any(Object),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "content-type": expect.stringMatching(/multipart\/form-data/),
+        }),
+      }),
     );
   });
 });

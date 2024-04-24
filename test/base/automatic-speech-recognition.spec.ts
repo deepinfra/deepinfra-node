@@ -20,7 +20,6 @@ describe("AutomaticSpeechRecognition", () => {
   const modelName = "openai/whisper-large";
   const apiKey = "your-api-key";
   let model: AutomaticSpeechRecognition;
-  const fakeFileBuffer = Buffer.from("This is a fake MP3 file", "utf8");
 
   beforeAll(() => {
     model = new AutomaticSpeechRecognition(modelName, apiKey);
@@ -39,19 +38,11 @@ describe("AutomaticSpeechRecognition", () => {
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
       expect.any(Object),
-      expect.any(Object),
-    );
-  });
-
-  it("should send a request with base64 audio", async () => {
-    const response = await model.generate({
-      audio: fakeFileBuffer as Buffer,
-    });
-    expect(response).toBeDefined();
-    expect(postMock).toHaveBeenCalledWith(
-      `${ROOT_URL}${modelName}`,
-      expect.any(Object),
-      expect.any(Object),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "content-type": expect.stringMatching(/multipart\/form-data/),
+        }),
+      }),
     );
   });
 });

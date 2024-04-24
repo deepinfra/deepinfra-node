@@ -9,7 +9,6 @@ jest.mock("axios", () => {
     create: jest.fn(() => mockAxiosInstance),
   };
 });
-import * as fs from "node:fs";
 import { ROOT_URL } from "@/lib/constants/client";
 import { ImageClassification } from "@/index";
 
@@ -17,7 +16,6 @@ describe("ImageClassification", () => {
   const modelName = "google/vit-base-patch16-224";
   const apiKey = "your-api-key";
   let model: ImageClassification;
-  const fakeFileBuffer = Buffer.from("This is a fake image file", "utf8");
 
   beforeAll(() => {
     model = new ImageClassification(modelName, apiKey);
@@ -36,7 +34,11 @@ describe("ImageClassification", () => {
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
       expect.any(Object),
-      expect.any(Object),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "content-type": expect.stringMatching(/multipart\/form-data/),
+        }),
+      }),
     );
   });
 });

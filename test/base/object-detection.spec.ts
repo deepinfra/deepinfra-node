@@ -9,7 +9,6 @@ jest.mock("axios", () => {
     create: jest.fn(() => mockAxiosInstance),
   };
 });
-import * as fs from "node:fs";
 import { ROOT_URL } from "@/lib/constants/client";
 import { ObjectDetection } from "@/index";
 
@@ -17,7 +16,6 @@ describe("ObjectDetection", () => {
   const modelName = "hustvl/yolos-base";
   const apiKey = "your-api-key";
   let model: ObjectDetection;
-  const fakeFileBuffer = Buffer.from("This is a fake MP3 file", "utf8");
 
   beforeAll(() => {
     model = new ObjectDetection(modelName, apiKey);
@@ -36,7 +34,11 @@ describe("ObjectDetection", () => {
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
       expect.any(Object),
-      expect.any(Object),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "content-type": expect.stringMatching(/multipart\/form-data/),
+        }),
+      }),
     );
   });
 });
