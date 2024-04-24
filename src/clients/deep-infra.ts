@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { USER_AGENT } from "@/lib/constants/client";
 import { ClientConfig, IClientConfig } from "@/lib/types/common/client-config";
-import FormData from "form-data";
 
 export class DeepInfraClient {
   private axiosClient: AxiosInstance;
