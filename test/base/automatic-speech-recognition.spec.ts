@@ -4,6 +4,7 @@ const postMock = jest
 
 import { ROOT_URL } from "@/lib/constants/client";
 import { AutomaticSpeechRecognition } from "@/index";
+import FormData from "form-data";
 
 jest.mock("axios", () => {
   const mockAxiosInstance = {
@@ -37,7 +38,7 @@ describe("AutomaticSpeechRecognition", () => {
     expect(response).toBeDefined();
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
-      expect.any(Object),
+      expect.any(FormData),
       expect.objectContaining({
         headers: expect.objectContaining({
           "content-type": expect.stringMatching(/multipart\/form-data/),

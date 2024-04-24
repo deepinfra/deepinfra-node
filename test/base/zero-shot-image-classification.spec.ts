@@ -11,6 +11,7 @@ jest.mock("axios", () => {
 });
 import { ROOT_URL } from "@/lib/constants/client";
 import { ZeroShotImageClassification } from "@/index";
+import FormData from "form-data";
 
 describe("ZeroShotImageClassification", () => {
   const modelName = "openai/clip-vit-base-patch32";
@@ -34,7 +35,7 @@ describe("ZeroShotImageClassification", () => {
     expect(response).toBeDefined();
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
-      expect.any(Object),
+      expect.any(FormData),
       expect.objectContaining({
         headers: expect.objectContaining({
           "content-type": expect.stringMatching(/multipart\/form-data/),

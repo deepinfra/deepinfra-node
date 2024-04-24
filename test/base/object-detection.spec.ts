@@ -11,6 +11,7 @@ jest.mock("axios", () => {
 });
 import { ROOT_URL } from "@/lib/constants/client";
 import { ObjectDetection } from "@/index";
+import FormData from "form-data";
 
 describe("ObjectDetection", () => {
   const modelName = "hustvl/yolos-base";
@@ -33,7 +34,7 @@ describe("ObjectDetection", () => {
     expect(response).toBeDefined();
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
-      expect.any(Object),
+      expect.any(FormData),
       expect.objectContaining({
         headers: expect.objectContaining({
           "content-type": expect.stringMatching(/multipart\/form-data/),

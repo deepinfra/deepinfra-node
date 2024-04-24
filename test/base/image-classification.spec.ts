@@ -11,6 +11,7 @@ jest.mock("axios", () => {
 });
 import { ROOT_URL } from "@/lib/constants/client";
 import { ImageClassification } from "@/index";
+import FormData from "form-data";
 
 describe("ImageClassification", () => {
   const modelName = "google/vit-base-patch16-224";
@@ -33,7 +34,7 @@ describe("ImageClassification", () => {
     expect(response).toBeDefined();
     expect(postMock).toHaveBeenCalledWith(
       `${ROOT_URL}${modelName}`,
-      expect.any(Object),
+      expect.any(FormData),
       expect.objectContaining({
         headers: expect.objectContaining({
           "content-type": expect.stringMatching(/multipart\/form-data/),
