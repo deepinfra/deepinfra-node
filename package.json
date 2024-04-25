@@ -7,13 +7,17 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepinfra/deepinfra-node.git"
+  },
   "scripts": {
     "build": "tsc && tsc-alias -p tsconfig.json",
     "misc": "npx ts-node -r tsconfig-paths/register src/misc.ts",
     "prepare": "husky",
     "test": "jest --passWithNoTests",
     "lint": "eslint . --ext .ts --fix",
-    "prettier": "prettier --write ./src ./test",
+    "prettier": "prettier --write ./src ./test && prettier --write README.MD",
     "build-docs": "typedoc --out docs src",
     "predeploy-docs": "npm run build-docs",
     "deploy-docs": "npx gh-pages -d docs"
