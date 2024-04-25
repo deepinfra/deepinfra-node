@@ -71,7 +71,7 @@ export const ReadStreamUtils = {
     } else if (typeof input === "string") {
       if (input.startsWith("http")) {
         return this.urlToStream(input);
-      } else if (input.match(/^data:image\/[a-zA-Z]+;base64,/)) {
+      } else if (input.startsWith("data:")) {
         const base64Data = input.split(",")[1];
         return this.base64ToStream(base64Data);
       } else {
