@@ -11,9 +11,9 @@
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
 
-# deepinfra-api
+# deepinfra-node
 
-Simple DeepInfra API Wrapper - simple interface to use DeepInfra's Inference API.
+DeepInfra API is a Node.js client for the DeepInfra Inference API. It provides a simple way to interact with the DeepInfra API.
 Check out the docs from [here.](https://ovuruska.github.io/deepinfra-api/)
 
 ## Installation
