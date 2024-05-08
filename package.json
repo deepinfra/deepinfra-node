@@ -1,7 +1,7 @@
 {
-  "name": "deepinfra-api",
+  "name": "deepinfra",
   "version": "1.0.0",
-  "description": "Unofficial API wrapper for DeepInfra",
+  "description": "Official API wrapper for DeepInfra",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
