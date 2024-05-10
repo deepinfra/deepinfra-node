@@ -23,11 +23,12 @@ leverages a mixture of 8 experts (MoE) within 7b models. Its release was facilit
 implementation remains in the experimental phase.\_
 
 ```typescript
-import { Mixtral } from "deepinfra";
+import {TextGeneration} from "deepinfra";
+
 const modelName = "mistralai/Mixtral-8x22B-Instruct-v0.1";
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const main = async () => {
-  const mixtral = new Mixtral(Mixtral, apiKey);
+  const mixtral = new TextGeneration(modelName, apiKey);
   const body = {
     input: "What is the capital of France?",
   };
