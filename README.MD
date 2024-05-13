@@ -1,25 +1,17 @@
-![npm](https://img.shields.io/npm/v/deepinfra-api)
-![npm](https://img.shields.io/npm/dt/deepinfra-api)<br>
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ovuruska_deepinfra-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ovuruska_deepinfra-api)
+# DeepInfra Node API Library
+![npm](https://img.shields.io/npm/v/deepinfra)
+![npm](https://img.shields.io/npm/dt/deepinfra)<br>
 
-# deepinfra-node
 
-DeepInfra API is a Node.js client for the DeepInfra Inference API. It provides a simple way to interact with the DeepInfra API.
-Check out the docs from [here.](https://ovuruska.github.io/deepinfra-api/)
+This library provides a simple way to interact with the DeepInfra API. 
+<br>
+<br>
+Check out our docs [here.](https://deepinfra.github.io/deepinfra-node/)
 
 ## Installation
 
 ```bash
-npm install deepinfra-api
+npm install deepinfra
 ```
 
 ## Usage
@@ -31,11 +23,12 @@ leverages a mixture of 8 experts (MoE) within 7b models. Its release was facilit
 implementation remains in the experimental phase.\_
 
 ```typescript
-import { Mixtral } from "deepinfra-api";
+import {TextGeneration} from "deepinfra";
+
 const modelName = "mistralai/Mixtral-8x22B-Instruct-v0.1";
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const main = async () => {
-  const mixtral = new Mixtral(Mixtral, apiKey);
+  const mixtral = new TextGeneration(modelName, apiKey);
   const body = {
     input: "What is the capital of France?",
   };
@@ -52,7 +45,7 @@ main();
 Gte Base is an text embedding model that generates embeddings for the input text. The model is trained by Alibaba DAMO Academy.
 
 ```typescript
-import { GteBase } from "deepinfra-api";
+import { GteBase } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "thenlper/gte-base";
@@ -78,7 +71,7 @@ main();
 SDXL requires unique parameters, therefore it requires different initialization.
 
 ```typescript
-import { Sdxl } from "deepinfra-api";
+import { Sdxl } from "deepinfra";
 import axios from "axios";
 import fs from "fs";
 
@@ -105,7 +98,7 @@ main();
 ### Use [other text to image models](https://deepinfra.com/models/text-to-image)
 
 ```typescript
-import { TextToImage } from "deepinfra-api";
+import { TextToImage } from "deepinfra";
 import axios from "axios";
 import fs from "fs";
 
@@ -131,7 +124,7 @@ main();
 ### Use [automatic speech recognition models](https://deepinfra.com/models/automatic-speech-recognition)
 
 ```typescript
-import { AutomaticSpeechRecognition } from "deepinfra-api";
+import { AutomaticSpeechRecognition } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "openai/whisper-base";
@@ -153,7 +146,7 @@ main();
 ### Use [object detection models](https://deepinfra.com/models/object-detection)
 
 ```typescript
-import { ObjectDetection } from "deepinfra-api";
+import { ObjectDetection } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "hustvl/yolos-tiny";
@@ -172,7 +165,7 @@ const main = async () => {
 ### Use [token classification models](https://deepinfra.com/models/token-classification)
 
 ```typescript
-import { TokenClassification } from "deepinfra-api";
+import { TokenClassification } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "Davlan/bert-base-multilingual-cased-ner-hrl";
@@ -192,7 +185,7 @@ const main = async () => {
 ### Use [fill mask models](https://deepinfra.com/models/fill-mask)
 
 ```typescript
-import { FillMask } from "deepinfra-api";
+import { FillMask } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "GroNLP/bert-base-dutch-cased";
@@ -212,7 +205,7 @@ const main = async () => {
 ### Use [image classification models](https://deepinfra.com/models/image-classification)
 
 ```typescript
-import { ImageClassification } from "deepinfra-api";
+import { ImageClassification } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "google/vit-base-patch16-224";
@@ -232,7 +225,7 @@ const main = async () => {
 ### Use [zero-shot image classification models](https://deepinfra.com/models/zero-shot-image-classification)
 
 ```typescript
-import { ZeroShotImageClassification } from "deepinfra-api";
+import { ZeroShotImageClassification } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "openai/clip-vit-base-patch32";
@@ -253,7 +246,7 @@ const main = async () => {
 ### Use [text classification models](https://deepinfra.com/models/text-classification)
 
 ```typescript
-import { TextClassification } from "deepinfra-api";
+import { TextClassification } from "deepinfra";
 
 const apiKey = "YOUR_DEEPINFRA_API_KEY";
 const modelName = "ProsusAI/finbert";
