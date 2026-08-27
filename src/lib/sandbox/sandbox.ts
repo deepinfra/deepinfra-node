@@ -1,11 +1,20 @@
+import { inspect } from "node:util";
 import {
   DeepInfraClient,
   RequestSpec,
   defaultClient,
   parseJsonBody,
 } from "@/lib/http";
-import { SandboxFailedError, SandboxTimeoutError } from "@/lib/errors";
-import { SandboxInfo, parseSandboxInfo } from "@/lib/sandbox/sandbox-info";
+import {
+  NotFoundError,
+  SandboxFailedError,
+  SandboxTimeoutError,
+} from "@/lib/errors";
+import {
+  SandboxInfo,
+  SandboxState,
+  parseSandboxInfo,
+} from "@/lib/sandbox/sandbox-info";
 import { SandboxPlan, parseSandboxPlan } from "@/lib/sandbox/sandbox-plan";
 import { ExecResult } from "@/lib/sandbox/exec-result";
 import {
@@ -24,15 +33,15 @@ const DEFAULT_WAIT_TIMEOUT = 300;
 const DEFAULT_EXEC_TIMEOUT = 60;
 const EXEC_HTTP_GRACE = 30;
 
-const RUNNING = "running";
-const STOPPED = "stopped";
-const TERMINAL_STATES = new Set(["failed", "deleted"]);
+const RUNNING: SandboxState = "running";
+const STOPPED: SandboxState = "stopped";
+const TERMINAL_STATES = new Set<SandboxState>(["failed", "deleted"]);
 
 /** Handle to one sandbox. Fields mirror the server; refresh() updates them. */
 export class Sandbox {
   private info: SandboxInfo;
   /** The client backing this sandbox's requests. Not part of the stable public API. */
-  readonly _client: DeepInfraClient;
+  declare readonly _client: DeepInfraClient;
   readonly fs: SandboxFS;
 
   constructor(
@@ -40,7 +49,12 @@ export class Sandbox {
     { client }: { client?: DeepInfraClient } = {},
   ) {
     this.info = info;
-    this._client = client ?? defaultClient();
+    // Non-enumerable so console.log/util.inspect/JSON.stringify on a Sandbox
+    // never traverse into the client (and, via it, anything sensitive).
+    Object.defineProperty(this, "_client", {
+      value: client ?? defaultClient(),
+      enumerable: false,
+    });
     this.fs = new SandboxFS(this);
   }
 
@@ -56,7 +70,7 @@ export class Sandbox {
     return this.info.image;
   }
 
-  get state(): string {
+  get state(): SandboxState {
     return this.info.state;
   }
 
@@ -76,11 +90,25 @@ export class Sandbox {
     return `Sandbox(id=${JSON.stringify(this.id)}, state=${JSON.stringify(this.state)}, plan=${JSON.stringify(this.plan)})`;
   }
 
+  [inspect.custom](): string {
+    return this.toString();
+  }
+
+  /** Same intent as Python's __exit__: best-effort cleanup for `await using`. */
+  async [Symbol.asyncDispose](): Promise<void> {
+    try {
+      await this.terminate();
+    } catch (error) {
+      if (!(error instanceof NotFoundError)) {
+        throw error;
+      }
+    }
+  }
+
   // -- constructors --
 
   /** Create a sandbox; by default block until it is running. */
   static async create({
-    image = "",
     plan = "",
     timeout,
     tags,
@@ -89,7 +117,7 @@ export class Sandbox {
     client,
   }: CreateOptions = {}): Promise<Sandbox> {
     const c = client ?? defaultClient();
-    const response = await c.request(createSpec(image, plan, timeout, tags));
+    const response = await c.request(createSpec(plan, timeout, tags));
     const body = parseJsonBody(response.data) as { sandbox_id: string };
     const sandbox = new Sandbox(
       parseSandboxInfo({ sandbox_id: body.sandbox_id }),
@@ -189,11 +217,13 @@ export class Sandbox {
   // -- execution --
 
   /** Run a command and return its aggregated stdout/stderr/returncode. */
-  async exec(...args: Array<string | ExecOptions>): Promise<ExecResult> {
-    const { command, options } = splitExecArgs(args);
-    if (command.length === 0) {
-      throw new Error("exec() needs at least one command argument");
-    }
+  exec(cmd: string, ...args: string[]): Promise<ExecResult>;
+  exec(cmd: string, ...args: [...string[], ExecOptions]): Promise<ExecResult>;
+  async exec(
+    cmd: string,
+    ...args: Array<string | ExecOptions>
+  ): Promise<ExecResult> {
+    const { command, options } = splitExecArgs([cmd, ...args]);
     const response = await this._client.stream(
       this.execSpec(command, options.timeout),
     );
@@ -213,7 +243,7 @@ export class Sandbox {
   // -- internals --
 
   private async waitForState(
-    target: string,
+    target: SandboxState,
     timeoutSeconds: number,
   ): Promise<this> {
     const deadline = Date.now() + timeoutSeconds * 1000;
@@ -232,7 +262,7 @@ export class Sandbox {
     }
   }
 
-  private checkWaitState(target: string): void {
+  private checkWaitState(target: SandboxState): void {
     if (TERMINAL_STATES.has(this.state) && this.state !== target) {
       throw new SandboxFailedError(
         `Sandbox ${this.id} entered state ${JSON.stringify(this.state)}`,
@@ -244,7 +274,7 @@ export class Sandbox {
   }
 
   private waitTimeoutError(
-    target: string,
+    target: SandboxState,
     timeoutSeconds: number,
   ): SandboxTimeoutError {
     return new SandboxTimeoutError(
@@ -259,8 +289,10 @@ export class Sandbox {
     timeout: Duration | undefined,
   ): RequestSpec {
     const timeoutSeconds = timeout === undefined ? 0 : parseDuration(timeout);
-    // Read timeout outlives the server-side command timeout so the server's
-    // kill surfaces as a terminal error line, not a socket error.
+    // This is an axios idle timeout (resets on each received chunk), not a
+    // hard cap on total exec duration — it outlives the server-side command
+    // timeout so the server's kill surfaces as a terminal error line, not a
+    // socket error.
     const httpTimeout =
       (timeoutSeconds || DEFAULT_EXEC_TIMEOUT) + EXEC_HTTP_GRACE;
     return {
@@ -295,7 +327,6 @@ function fromList(
 }
 
 function createSpec(
-  image: string,
   plan: string,
   timeout: Duration | undefined,
   tags: Record<string, string> | undefined,
@@ -304,7 +335,6 @@ function createSpec(
     method: "POST",
     path: SANDBOXES,
     json: {
-      image,
       plan,
       tags: tags ?? {},
       timeout_seconds: timeout === undefined ? 0 : parseDuration(timeout),

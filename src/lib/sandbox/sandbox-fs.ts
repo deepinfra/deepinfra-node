@@ -4,7 +4,17 @@ import { idPath } from "@/lib/sandbox/paths";
 
 /** File transfer to/from a sandbox (absolute paths inside the guest). */
 export class SandboxFS {
-  constructor(private readonly sandbox: Sandbox) {}
+  private declare readonly sandbox: Sandbox;
+
+  constructor(sandbox: Sandbox) {
+    // Non-enumerable: sandbox.fs.sandbox === sandbox would otherwise be a
+    // circular reference (and drag the sandbox's client along with it) that
+    // breaks JSON.stringify(sandbox) and bloats console.log(sandbox) output.
+    Object.defineProperty(this, "sandbox", {
+      value: sandbox,
+      enumerable: false,
+    });
+  }
 
   async write(path: string, data: Buffer | string): Promise<void> {
     await this.sandbox._client.request(this.writeSpec(path, data));

@@ -27,7 +27,7 @@ const sb = await Sandbox.create({ plan: "medium", timeout: "10m" }); // resolves
 const r = await sb.exec(
   "bash",
   "-c",
-  "pip install pandas && python -c 'import pandas; print(pandas.__version__)'",
+  "pip install --break-system-packages pandas && python3 -c 'import pandas; print(pandas.__version__)'",
 );
 console.log(r.stdout, r.stderr, r.returncode);
 
@@ -41,6 +41,12 @@ await sb.stop(); // frees compute, keeps disk; resolves once stopped
 await sb.start(); // resumes on the same disk; resolves once running
 await sb.terminate(); // deletes the sandbox (stays fetchable by id as "deleted" briefly)
 ```
+
+`/workspace` is the only path `fs.write`/`fs.read` accept, and it's the only
+part of the filesystem that survives `stop()`/`start()` — everything else
+(e.g. packages installed with `pip`/`apt` outside it) resets to the base
+image on restart, and the sandbox's idle timeout has the same effect as an
+explicit `stop()`.
 
 Auto-terminate with `try`/`finally`:
 
@@ -57,6 +63,8 @@ try {
 Other lookups:
 
 ```typescript
+import fs from "node:fs";
+
 // Find existing sandboxes
 const sb = await Sandbox.fromId("sb_...");
 const etlBoxes = await Sandbox.list({ tags: { job: "etl-42" } });

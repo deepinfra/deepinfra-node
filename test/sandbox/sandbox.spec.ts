@@ -1,4 +1,5 @@
 import { Readable } from "node:stream";
+import { inspect } from "node:util";
 
 const requestMock = jest.fn();
 jest.mock("axios", () => {
@@ -99,7 +100,6 @@ describe("Sandbox", () => {
     expect(createCall.method).toBe("POST");
     expect(createCall.url).toBe("https://api.deepinfra.com/v1/sandboxes");
     expect(createCall.data).toEqual({
-      image: "",
       plan: "small",
       tags: { demo: "1" },
       timeout_seconds: 0,
@@ -285,5 +285,17 @@ describe("Sandbox", () => {
       Sandbox.fromId("sb_x", { client: unauthedClient }),
     ).rejects.toThrow(AuthenticationError);
     expect(requestMock).not.toHaveBeenCalled();
+  });
+
+  it("never leaks the API key via console.log/util.inspect or JSON.stringify", () => {
+    const secretClient = new DeepInfraClient("super-secret-key");
+    const sb = testSandbox({}, secretClient);
+
+    expect(inspect(secretClient)).not.toContain("super-secret-key");
+    expect(inspect(sb, { depth: null })).not.toContain("super-secret-key");
+    expect(JSON.stringify(secretClient)).not.toContain("super-secret-key");
+    expect(JSON.stringify(sb)).not.toContain("super-secret-key");
+    // the client itself should also never show up as an enumerable key on the sandbox
+    expect(Object.keys(sb)).not.toContain("_client");
   });
 });

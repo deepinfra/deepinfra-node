@@ -11,7 +11,6 @@ export interface WaitOptions {
 }
 
 export interface CreateOptions extends WaitOptions {
-  image?: string;
   plan?: string;
   timeout?: Duration;
   tags?: Record<string, string>;

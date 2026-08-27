@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { Readable } from "node:stream";
+import { inspect } from "node:util";
 import {
   APIConnectionError,
   APITimeoutError,
@@ -12,7 +13,7 @@ import { parseJsonBody } from "@/lib/http/parse-json-body";
 import { backoffDelays, sleep } from "@/lib/utils/backoff";
 
 const DEFAULT_BASE_URL = "https://api.deepinfra.com";
-const DEFAULT_TIMEOUT_MS = 60_000;
+const DEFAULT_TIMEOUT = 60;
 const DEFAULT_MAX_RETRIES = 2;
 const RETRYABLE_STATUSES = new Set([502, 503, 504]);
 
@@ -25,8 +26,9 @@ const USER_AGENT = `deepinfra-node node/${process.version}`;
  * and eventually the inference wrappers) funnels through this client.
  */
 export class DeepInfraClient {
-  private apiKeyValue?: string;
+  #apiKeyValue?: string;
   readonly baseUrl: string;
+  /** In seconds, matching RequestSpec.timeout and the rest of the SDK's duration values. */
   readonly timeout: number;
   readonly maxRetries: number;
   private httpClient?: AxiosInstance;
@@ -35,11 +37,11 @@ export class DeepInfraClient {
     apiKey?: string,
     {
       baseUrl,
-      timeout = DEFAULT_TIMEOUT_MS,
+      timeout = DEFAULT_TIMEOUT,
       maxRetries = DEFAULT_MAX_RETRIES,
     }: { baseUrl?: string; timeout?: number; maxRetries?: number } = {},
   ) {
-    this.apiKeyValue = apiKey;
+    this.#apiKeyValue = apiKey;
     this.baseUrl = (
       baseUrl ||
       process.env.DEEPINFRA_BASE_URL ||
@@ -50,13 +52,13 @@ export class DeepInfraClient {
   }
 
   get apiKey(): string {
-    if (this.apiKeyValue === undefined) {
-      this.apiKeyValue = process.env.DEEPINFRA_API_KEY;
+    if (this.#apiKeyValue === undefined) {
+      this.#apiKeyValue = process.env.DEEPINFRA_API_KEY;
     }
-    if (!this.apiKeyValue) {
+    if (!this.#apiKeyValue) {
       throw new AuthenticationError();
     }
-    return this.apiKeyValue;
+    return this.#apiKeyValue;
   }
 
   async request(spec: RequestSpec): Promise<AxiosResponse> {
@@ -117,6 +119,14 @@ export class DeepInfraClient {
     return response;
   }
 
+  toString(): string {
+    return `DeepInfraClient(baseUrl=${JSON.stringify(this.baseUrl)})`;
+  }
+
+  [inspect.custom](): string {
+    return this.toString();
+  }
+
   private requestConfig(spec: RequestSpec) {
     const headers: Record<string, string> = {
       Authorization: `Bearer ${this.apiKey}`,
@@ -132,7 +142,7 @@ export class DeepInfraClient {
       headers,
       params: spec.params,
       data: spec.json === undefined ? spec.content : spec.json,
-      timeout: spec.timeout === undefined ? this.timeout : spec.timeout * 1000,
+      timeout: (spec.timeout ?? this.timeout) * 1000,
       validateStatus: () => true,
       // Fetch raw bytes always (like httpx's `.content`) instead of axios's
       // default JSON auto-parsing, so binary fs.read() bodies aren't corrupted.
@@ -171,7 +181,7 @@ export class DeepInfraClient {
 
   private http(): AxiosInstance {
     if (!this.httpClient) {
-      this.httpClient = axios.create({ timeout: this.timeout });
+      this.httpClient = axios.create({ timeout: this.timeout * 1000 });
     }
     return this.httpClient;
   }

@@ -40,6 +40,21 @@ describe("iterNdjson", () => {
     const events = await collect(iterNdjson(streamOf(['{"returncode":0}'])));
     expect(events).toEqual([{ returncode: 0 }]);
   });
+
+  it("decodes a multi-byte UTF-8 character split across a chunk boundary", async () => {
+    // "é" is 2 bytes (0xC3 0xA9) in UTF-8; split the buffer between them so
+    // neither chunk holds a complete character on its own.
+    const full = Buffer.from('{"stdout":"héllo"}\n', "utf8");
+    const splitAt = full.indexOf(Buffer.from("é", "utf8")) + 1;
+    const stream = Readable.from([
+      full.subarray(0, splitAt),
+      full.subarray(splitAt),
+    ]);
+
+    const events = await collect(iterNdjson(stream));
+
+    expect(events).toEqual([{ stdout: "héllo" }]);
+  });
 });
 
 describe("foldExecEvents", () => {

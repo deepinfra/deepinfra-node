@@ -19,13 +19,15 @@ export class APIStatusError extends DeepInfraError {
 export class BadRequestError extends APIStatusError {}
 
 export class AuthenticationError extends APIStatusError {
-  constructor({
+  constructor(
     message = "No API key provided. Pass apiKey or set the " +
       "DEEPINFRA_API_KEY environment variable " +
       "(https://deepinfra.com/dash/api_keys).",
-    statusCode = 401,
-    response,
-  }: { message?: string; statusCode?: number; response?: AxiosResponse } = {}) {
+    {
+      statusCode = 401,
+      response,
+    }: { statusCode?: number; response?: AxiosResponse } = {},
+  ) {
     super(message, { statusCode, response });
   }
 }
@@ -59,10 +61,7 @@ const STATUS_TO_ERROR: Record<
   ) => APIStatusError
 > = {
   400: BadRequestError,
-  401: AuthenticationError as unknown as new (
-    message: string,
-    opts: { statusCode: number; response?: AxiosResponse },
-  ) => APIStatusError,
+  401: AuthenticationError,
   403: PermissionDeniedError,
   404: NotFoundError,
   409: ConflictError,
