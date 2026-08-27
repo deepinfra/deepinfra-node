@@ -203,8 +203,8 @@ export class Sandbox {
   /**
    * Run a Python snippet (python3 -c).
    *
-   * For large scripts prefer fs.write("/work/script.py", code) then
-   * exec("python3", "/work/script.py").
+   * For large scripts prefer fs.write("/workspace/script.py", code) then
+   * exec("python3", "/workspace/script.py").
    */
   runPython(code: string, options: ExecOptions = {}): Promise<ExecResult> {
     return this.exec("python3", "-c", code, options);

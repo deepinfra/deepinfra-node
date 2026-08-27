@@ -246,20 +246,20 @@ describe("Sandbox", () => {
       );
 
     const sb = testSandbox({}, client);
-    await sb.fs.write("/work/hello.txt", "hello from the host\n");
-    const data = await sb.fs.read("/work/hello.txt");
+    await sb.fs.write("/workspace/hello.txt", "hello from the host\n");
+    const data = await sb.fs.read("/workspace/hello.txt");
 
     expect(data.toString("utf8")).toBe("hello from the host\n");
 
     const writeCall = requestMock.mock.calls[0][0];
     expect(writeCall.method).toBe("PUT");
-    expect(writeCall.params).toEqual({ path: "/work/hello.txt" });
+    expect(writeCall.params).toEqual({ path: "/workspace/hello.txt" });
     expect(writeCall.headers["Content-Type"]).toBe("application/octet-stream");
     expect(Buffer.isBuffer(writeCall.data)).toBe(true);
 
     const readCall = requestMock.mock.calls[1][0];
     expect(readCall.method).toBe("GET");
-    expect(readCall.params).toEqual({ path: "/work/hello.txt" });
+    expect(readCall.params).toEqual({ path: "/workspace/hello.txt" });
   });
 
   it("maps error statuses to typed errors", async () => {
