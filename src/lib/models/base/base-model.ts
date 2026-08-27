@@ -1,11 +1,11 @@
-import { DeepInfraClient } from "@/clients";
+import { LegacyModelClient } from "@/clients";
 import { IClientConfig } from "@/lib/types/common/client-config";
 
 import { ROOT_URL } from "@/lib/constants/client";
 import { URLUtils } from "@/lib/utils/url";
 
 export class BaseModel {
-  protected client: DeepInfraClient;
+  protected client: LegacyModelClient;
   protected readonly endpoint: string;
   protected authToken: string;
   constructor(
@@ -18,7 +18,7 @@ export class BaseModel {
       : ROOT_URL + modelName;
     this.authToken =
       authToken || this.getAuthTokenFromEnv() || this.warnAboutMissingApiKey();
-    this.client = new DeepInfraClient(this.endpoint, this.authToken, config);
+    this.client = new LegacyModelClient(this.endpoint, this.authToken, config);
   }
 
   private warnAboutMissingApiKey() {

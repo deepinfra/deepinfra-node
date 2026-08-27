@@ -14,6 +14,76 @@ Check out our docs [here.](https://deepinfra.github.io/deepinfra-node/)
 npm install deepinfra
 ```
 
+## Sandboxes
+
+Create an isolated Linux microVM, run bash/python inside it, move files in and
+out, and tear it down — in a few lines:
+
+```typescript
+import { Sandbox } from "deepinfra";
+
+const sb = await Sandbox.create({ plan: "medium", timeout: "10m" }); // resolves once running
+
+const r = await sb.exec(
+  "bash",
+  "-c",
+  "pip install pandas && python -c 'import pandas; print(pandas.__version__)'",
+);
+console.log(r.stdout, r.stderr, r.returncode);
+
+const out = await sb.runPython("print(21 * 2)");
+out.check(); // throws CommandFailedError on a non-zero exit code
+
+await sb.fs.write("/workspace/in.csv", "a,b\n1,2\n");
+const data = await sb.fs.read("/workspace/in.csv"); // Buffer
+
+await sb.stop(); // frees compute, keeps disk; resolves once stopped
+await sb.start(); // resumes on the same disk; resolves once running
+await sb.terminate(); // deletes the sandbox (stays fetchable by id as "deleted" briefly)
+```
+
+Auto-terminate with `try`/`finally`:
+
+```typescript
+const sb = await Sandbox.create({ plan: "small" });
+try {
+  await sb.runPython("open('/workspace/out.txt', 'w').write('hi')");
+  console.log((await sb.fs.read("/workspace/out.txt")).toString());
+} finally {
+  await sb.terminate();
+}
+```
+
+Other lookups:
+
+```typescript
+// Find existing sandboxes
+const sb = await Sandbox.fromId("sb_...");
+const etlBoxes = await Sandbox.list({ tags: { job: "etl-42" } });
+
+// List available plans (id, vcpu, ram_gb, disk_gb, price_per_hour)
+for (const plan of await Sandbox.catalog()) {
+  console.log(plan.id, plan.vcpu, plan.ram_gb, plan.price_per_hour);
+}
+
+// Large scripts: upload, then run
+await sb.fs.write(
+  "/workspace/script.py",
+  await fs.promises.readFile("script.py", "utf8"),
+);
+await sb.exec("python3", "/workspace/script.py", { timeout: "30m" });
+```
+
+Errors are typed: `AuthenticationError` (401), `NotFoundError` (404),
+`ConflictError` (409, e.g. exec on a stopped sandbox), `RateLimitError`
+(429; for sandboxes that's the per-account cap — `TooManySandboxesError` is
+an alias), `CapacityError` (503), plus SDK-side `SandboxTimeoutError` /
+`SandboxFailedError` / `CommandFailedError`. If `Sandbox.create()` fails
+while waiting for it to come up, the raised error carries `.sandboxId` so you
+can inspect or terminate the sandbox it created.
+
+See [`examples/sandbox-quickstart.ts`](examples/sandbox-quickstart.ts) for a runnable end-to-end example.
+
 ## Usage
 
 ### Use [text generation models](https://deepinfra.com/models/text-generation)

@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { USER_AGENT } from "@/lib/constants/client";
 import { ClientConfig, IClientConfig } from "@/lib/types/common/client-config";
 
-export class DeepInfraClient {
+export class LegacyModelClient {
   private axiosClient: AxiosInstance;
   private readonly clientConfig: ClientConfig;
 
