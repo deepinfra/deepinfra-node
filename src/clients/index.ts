@@ -1,1 +1,1 @@
-export { DeepInfraClient } from "@/clients/deep-infra";
+export { LegacyModelClient } from "@/clients/deep-infra";

@@ -1,12 +1,13 @@
-export * from "@/lib/models/base";
-export * from "@/lib/sandbox";
+export { DeepInfraError } from "@/lib/errors/deep-infra-error";
 export {
-  DeepInfraError,
   APIConnectionError,
   APITimeoutError,
+  MaxRetriesExceededError,
+} from "@/lib/errors/connection-errors";
+export {
   APIStatusError,
-  AuthenticationError,
   BadRequestError,
+  AuthenticationError,
   PermissionDeniedError,
   NotFoundError,
   ConflictError,
@@ -15,13 +16,14 @@ export {
   TooManySandboxesError,
   CapacityError,
   InternalServerError,
-  MaxRetriesExceededError,
+  extractErrorMessage,
+  exceptionFromResponse,
+} from "@/lib/errors/status-errors";
+export {
   SandboxError,
   SandboxWaitError,
   SandboxTimeoutError,
   SandboxFailedError,
   SandboxExecError,
   CommandFailedError,
-} from "@/lib/errors";
-export { DeepInfraClient } from "@/lib/http";
-export type { RequestSpec } from "@/lib/http";
+} from "@/lib/errors/sandbox-errors";
