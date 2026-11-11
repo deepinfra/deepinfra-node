@@ -48,6 +48,25 @@ part of the filesystem that survives `stop()`/`start()` — everything else
 image on restart, and the sandbox's idle timeout has the same effect as an
 explicit `stop()`.
 
+Stream output while a command runs — the last event carries the exit code:
+
+```typescript
+for await (const event of sb.execStream(
+  "bash",
+  "-c",
+  "pip install --break-system-packages requests",
+  { timeout: "5m" },
+)) {
+  if (event.type === "stdout") process.stdout.write(event.data);
+  else if (event.type === "stderr") process.stderr.write(event.data);
+  else console.log("exit code", event.returncode);
+}
+```
+
+`exec()` and `execStream()` also take an `AbortSignal` (`{ signal }`). Aborting
+makes the pending call or loop throw the signal's reason; the command itself
+keeps running in the sandbox until it exits or reaches its `timeout`.
+
 Auto-terminate with `try`/`finally`:
 
 ```typescript

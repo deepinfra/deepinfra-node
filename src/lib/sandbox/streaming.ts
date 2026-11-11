@@ -85,33 +85,54 @@ function mapStreamError(err: unknown): APIConnectionError {
   return new APIConnectionError("Connection error");
 }
 
-/** Accumulate exec-stream events into an ExecResult. */
-export async function foldExecEvents(
+/** A chunk of a running command's output, or its exit status (always the last event). */
+export type ExecEvent =
+  | { type: "stdout"; data: string }
+  | { type: "stderr"; data: string }
+  | { type: "exit"; returncode: number };
+
+const NO_RETURN_CODE = "Exec stream ended without a return code";
+
+/** Type the raw exec stream; an error line or a missing return code throws. */
+export async function* toExecEvents(
   events: AsyncIterable<NdjsonEvent>,
-): Promise<ExecResult> {
-  const stdout: string[] = [];
-  const stderr: string[] = [];
-  let returncode: number | undefined;
+): AsyncGenerator<ExecEvent> {
+  let exited = false;
   for await (const event of events) {
     if ("error" in event) {
       throw new SandboxExecError(String(event.error));
     }
     if ("stdout" in event) {
-      stdout.push(String(event.stdout));
+      yield { type: "stdout", data: String(event.stdout) };
     }
     if ("stderr" in event) {
-      stderr.push(String(event.stderr));
+      yield { type: "stderr", data: String(event.stderr) };
     }
     if ("returncode" in event) {
-      returncode = Number(event.returncode);
+      exited = true;
+      yield { type: "exit", returncode: Number(event.returncode) };
+    }
+  }
+  if (!exited) {
+    throw new SandboxExecError(NO_RETURN_CODE);
+  }
+}
+
+/** Accumulate exec events into an ExecResult. */
+export async function foldExecEvents(
+  events: AsyncIterable<ExecEvent>,
+): Promise<ExecResult> {
+  const output = { stdout: "", stderr: "" };
+  let returncode: number | undefined;
+  for await (const event of events) {
+    if (event.type === "exit") {
+      returncode = event.returncode;
+    } else {
+      output[event.type] += event.data;
     }
   }
   if (returncode === undefined) {
-    throw new SandboxExecError("Exec stream ended without a return code");
+    throw new SandboxExecError(NO_RETURN_CODE);
   }
-  return new ExecResult({
-    stdout: stdout.join(""),
-    stderr: stderr.join(""),
-    returncode,
-  });
+  return new ExecResult({ ...output, returncode });
 }

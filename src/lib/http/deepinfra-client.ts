@@ -98,13 +98,18 @@ export class DeepInfraClient {
   /**
    * Issue a streaming request; error statuses throw before returning.
    * Streaming requests are never retried (exec is not idempotent).
+   * Aborting `signal` cancels the request and errors the response stream.
    */
-  async stream(spec: RequestSpec): Promise<AxiosResponse<Readable>> {
+  async stream(
+    spec: RequestSpec,
+    signal?: AbortSignal,
+  ): Promise<AxiosResponse<Readable>> {
     let response: AxiosResponse<Readable>;
     try {
       response = await this.http().request<Readable>({
         ...this.requestConfig(spec),
         responseType: "stream",
+        signal,
       });
     } catch (error) {
       if (!axios.isAxiosError(error)) {
