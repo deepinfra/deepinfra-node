@@ -22,7 +22,12 @@ import {
   WaitOptions,
   CreateOptions,
 } from "@/lib/sandbox/sandbox-options";
-import { foldExecEvents, iterNdjson } from "@/lib/sandbox/streaming";
+import {
+  ExecEvent,
+  foldExecEvents,
+  iterNdjson,
+  toExecEvents,
+} from "@/lib/sandbox/streaming";
 import { Duration, parseDuration } from "@/lib/sandbox/duration";
 import { tagsMatch } from "@/lib/sandbox/tags";
 import { SANDBOXES, idPath } from "@/lib/sandbox/paths";
@@ -219,15 +224,26 @@ export class Sandbox {
   /** Run a command and return its aggregated stdout/stderr/returncode. */
   exec(cmd: string, ...args: string[]): Promise<ExecResult>;
   exec(cmd: string, ...args: [...string[], ExecOptions]): Promise<ExecResult>;
-  async exec(
+  exec(cmd: string, ...args: Array<string | ExecOptions>): Promise<ExecResult> {
+    return foldExecEvents(this.execEvents([cmd, ...args]));
+  }
+
+  /**
+   * Run a command and yield its output while it runs; the last event is its
+   * exit status. The command starts when iteration starts. Leaving the loop
+   * early stops the reading, not the command, which runs until it exits or
+   * reaches its timeout.
+   */
+  execStream(cmd: string, ...args: string[]): AsyncGenerator<ExecEvent>;
+  execStream(
+    cmd: string,
+    ...args: [...string[], ExecOptions]
+  ): AsyncGenerator<ExecEvent>;
+  execStream(
     cmd: string,
     ...args: Array<string | ExecOptions>
-  ): Promise<ExecResult> {
-    const { command, options } = splitExecArgs([cmd, ...args]);
-    const response = await this._client.stream(
-      this.execSpec(command, options.timeout),
-    );
-    return foldExecEvents(iterNdjson(response.data));
+  ): AsyncGenerator<ExecEvent> {
+    return this.execEvents([cmd, ...args]);
   }
 
   /**
@@ -241,6 +257,37 @@ export class Sandbox {
   }
 
   // -- internals --
+
+  private async *execEvents(
+    args: Array<string | ExecOptions>,
+  ): AsyncGenerator<ExecEvent> {
+    const { command, options } = splitExecArgs(args);
+    const { signal } = options;
+    let exited = false;
+    try {
+      const response = await this._client.stream(
+        this.execSpec(command, options.timeout),
+        signal,
+      );
+      for await (const event of toExecEvents(iterNdjson(response.data))) {
+        if (event.type === "exit") {
+          exited = true;
+        }
+        yield event;
+      }
+    } catch (error) {
+      // An abort surfaces as a transport error; rethrow the caller's reason.
+      if (signal?.aborted) {
+        // After the exit event the command has finished, and the abort only
+        // cut off the end of the response.
+        if (exited) {
+          return;
+        }
+        throw signal.reason ?? error;
+      }
+      throw error;
+    }
+  }
 
   private async waitForState(
     target: SandboxState,

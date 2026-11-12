@@ -1,5 +1,5 @@
 /**
- * Sandbox quickstart: create, exec, file round-trip, terminate.
+ * Sandbox quickstart: create, exec, streamed exec, file round-trip, terminate.
  *
  * Needs DEEPINFRA_API_KEY in the environment. Run with:
  *   npx ts-node -r tsconfig-paths/register examples/sandbox-quickstart.ts
@@ -20,6 +20,13 @@ async function main(): Promise<void> {
 
     const sum = await sb.runPython("print(sum(range(101)))");
     console.log("sum 0..100 =", sum.check().stdout.trim());
+
+    const countdown = "for i in 3 2 1; do echo $i; sleep 1; done";
+    for await (const event of sb.execStream("bash", "-c", countdown)) {
+      if (event.type === "stdout") {
+        process.stdout.write(event.data);
+      }
+    }
 
     await sb.fs.write("/workspace/hello.txt", "hello from the host\n");
     const readBack = await sb.fs.read("/workspace/hello.txt");

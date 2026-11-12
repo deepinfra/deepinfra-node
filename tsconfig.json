@@ -32,6 +32,7 @@
   ],
   "exclude": [
     "**/misc.ts",
+    "**/__mocks__",
     "node_modules",
     "dist",
     "**/*.spec.ts",

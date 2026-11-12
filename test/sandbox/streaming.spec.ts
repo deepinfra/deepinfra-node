@@ -1,5 +1,10 @@
 import { Readable } from "node:stream";
-import { foldExecEvents, iterNdjson } from "@/lib/sandbox/streaming";
+import {
+  ExecEvent,
+  foldExecEvents,
+  iterNdjson,
+  toExecEvents,
+} from "@/lib/sandbox/streaming";
 import { SandboxExecError } from "@/lib/errors";
 
 function streamOf(chunks: string[]): Readable {
@@ -57,13 +62,42 @@ describe("iterNdjson", () => {
   });
 });
 
+describe("toExecEvents", () => {
+  it("types output chunks and ends with the exit event", async () => {
+    const wire = [{ stdout: "a" }, { stderr: "x" }, { returncode: 3 }];
+    expect(await collect(toExecEvents(fromArray(wire)))).toEqual([
+      { type: "stdout", data: "a" },
+      { type: "stderr", data: "x" },
+      { type: "exit", returncode: 3 },
+    ]);
+  });
+
+  it("throws SandboxExecError on an {error} event, after the output before it", async () => {
+    const events = toExecEvents(
+      fromArray([{ stdout: "partial" }, { error: "boom" }]),
+    );
+    expect((await events.next()).value).toEqual({
+      type: "stdout",
+      data: "partial",
+    });
+    const error = await events.next().catch((error_) => error_);
+    expect(error).toBeInstanceOf(SandboxExecError);
+    expect(error.message).toBe("boom");
+  });
+
+  it("throws SandboxExecError when the stream ends without a return code", async () => {
+    const events = toExecEvents(fromArray([{ stdout: "no end" }]));
+    await expect(collect(events)).rejects.toThrow(/without a return code/);
+  });
+});
+
 describe("foldExecEvents", () => {
   it("accumulates interleaved stdout/stderr and captures the return code", async () => {
-    const events = [
-      { stdout: "a" },
-      { stderr: "x" },
-      { stdout: "b" },
-      { returncode: 0 },
+    const events: ExecEvent[] = [
+      { type: "stdout", data: "a" },
+      { type: "stderr", data: "x" },
+      { type: "stdout", data: "b" },
+      { type: "exit", returncode: 0 },
     ];
     const result = await foldExecEvents(fromArray(events));
     expect(result.stdout).toBe("ab");
@@ -71,17 +105,10 @@ describe("foldExecEvents", () => {
     expect(result.returncode).toBe(0);
   });
 
-  it("throws SandboxExecError on an {error} event", async () => {
-    const events = [{ stdout: "partial" }, { error: "boom" }];
+  it("throws SandboxExecError when the events end without an exit", async () => {
+    const events: ExecEvent[] = [{ type: "stdout", data: "no end" }];
     await expect(foldExecEvents(fromArray(events))).rejects.toThrow(
       SandboxExecError,
-    );
-  });
-
-  it("throws SandboxExecError when the stream ends without a return code", async () => {
-    const events = [{ stdout: "no end" }];
-    await expect(foldExecEvents(fromArray(events))).rejects.toThrow(
-      /without a return code/,
     );
   });
 });

@@ -1,4 +1,4 @@
-import { Readable } from "node:stream";
+import { PassThrough, Readable } from "node:stream";
 import { inspect } from "node:util";
 
 const requestMock = jest.fn();
@@ -40,6 +40,10 @@ function streamResponse(status: number, lines: string[]) {
     headers: {},
     config: {},
   };
+}
+
+function openStreamResponse(body: Readable) {
+  return { status: 200, statusText: "", data: body, headers: {}, config: {} };
 }
 
 function testSandbox(
@@ -220,6 +224,101 @@ describe("Sandbox", () => {
 
     const sb = testSandbox({}, client);
     await expect(sb.exec("true")).rejects.toThrow(ConflictError);
+  });
+
+  it("execStream() yields each chunk as it arrives, then the exit status", async () => {
+    const body = new PassThrough();
+    requestMock.mockResolvedValueOnce(openStreamResponse(body));
+
+    const sb = testSandbox({}, client);
+    const events = sb.execStream("make", "-j4", { timeout: "5m" });
+
+    body.write('{"stdout":"compiling\\n"}\n');
+    expect(await events.next()).toEqual({
+      done: false,
+      value: { type: "stdout", data: "compiling\n" },
+    });
+    expect(body.writableEnded).toBe(false);
+
+    body.end('{"stderr":"warning\\n"}\n{"returncode":2}\n');
+    expect((await events.next()).value).toEqual({
+      type: "stderr",
+      data: "warning\n",
+    });
+    expect((await events.next()).value).toEqual({
+      type: "exit",
+      returncode: 2,
+    });
+    expect((await events.next()).done).toBe(true);
+
+    const call = requestMock.mock.calls[0][0];
+    expect(call.responseType).toBe("stream");
+    expect(call.url).toBe("https://api.deepinfra.com/v1/sandboxes/sb_1/exec");
+    expect(call.data).toEqual({
+      command: ["make", "-j4"],
+      timeout_seconds: 300,
+    });
+  });
+
+  it("execStream() rejects with the signal's reason when aborted mid-stream", async () => {
+    const body = new PassThrough();
+    requestMock.mockResolvedValueOnce(openStreamResponse(body));
+    const controller = new AbortController();
+
+    const sb = testSandbox({}, client);
+    const events = sb.execStream("sleep", "60", { signal: controller.signal });
+    body.write('{"stdout":"started"}\n');
+    await events.next();
+
+    controller.abort();
+    body.destroy(new Error("canceled")); // what axios does to the body on abort
+
+    await expect(events.next()).rejects.toBe(controller.signal.reason);
+    expect(requestMock.mock.calls[0][0].signal).toBe(controller.signal);
+  });
+
+  it("execStream() ends normally when aborted after the exit event", async () => {
+    const body = new PassThrough();
+    requestMock.mockResolvedValueOnce(openStreamResponse(body));
+    const controller = new AbortController();
+
+    const sb = testSandbox({}, client);
+    const events = sb.execStream("true", { signal: controller.signal });
+    body.write('{"returncode":0}\n');
+    expect((await events.next()).value).toEqual({
+      type: "exit",
+      returncode: 0,
+    });
+
+    controller.abort();
+    body.destroy(new Error("canceled")); // what axios does to the body on abort
+
+    expect(await events.next()).toEqual({ done: true, value: undefined });
+  });
+
+  it("exec() rejects with the signal's reason when aborted before a response", async () => {
+    const controller = new AbortController();
+    controller.abort();
+    requestMock.mockRejectedValueOnce(new Error("canceled"));
+
+    const sb = testSandbox({}, client);
+    await expect(sb.exec("true", { signal: controller.signal })).rejects.toBe(
+      controller.signal.reason,
+    );
+  });
+
+  it("leaving an execStream() loop early closes the response stream", async () => {
+    const body = new PassThrough();
+    requestMock.mockResolvedValueOnce(openStreamResponse(body));
+    body.write('{"stdout":"y\\n"}\n');
+
+    const sb = testSandbox({}, client);
+    for await (const event of sb.execStream("yes")) {
+      expect(event.type).toBe("stdout");
+      break;
+    }
+
+    expect(body.destroyed).toBe(true);
   });
 
   it("runPython() sugars to exec('python3', '-c', code)", async () => {
