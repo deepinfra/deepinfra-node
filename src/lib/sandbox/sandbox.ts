@@ -261,15 +261,26 @@ export class Sandbox {
   ): AsyncGenerator<ExecEvent> {
     const { command, options } = splitExecArgs(args);
     const { signal } = options;
+    let exited = false;
     try {
       const response = await this._client.stream(
         this.execSpec(command, options.timeout),
         signal,
       );
-      yield* toExecEvents(iterNdjson(response.data));
+      for await (const event of toExecEvents(iterNdjson(response.data))) {
+        if (event.type === "exit") {
+          exited = true;
+        }
+        yield event;
+      }
     } catch (error) {
       // An abort surfaces as a transport error; rethrow the caller's reason.
       if (signal?.aborted) {
+        // After the exit event the command has finished, and the abort only
+        // cut off the end of the response.
+        if (exited) {
+          return;
+        }
         throw signal.reason ?? error;
       }
       throw error;

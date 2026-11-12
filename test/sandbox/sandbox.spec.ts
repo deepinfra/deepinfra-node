@@ -277,6 +277,25 @@ describe("Sandbox", () => {
     expect(requestMock.mock.calls[0][0].signal).toBe(controller.signal);
   });
 
+  it("execStream() ends normally when aborted after the exit event", async () => {
+    const body = new PassThrough();
+    requestMock.mockResolvedValueOnce(openStreamResponse(body));
+    const controller = new AbortController();
+
+    const sb = testSandbox({}, client);
+    const events = sb.execStream("true", { signal: controller.signal });
+    body.write('{"returncode":0}\n');
+    expect((await events.next()).value).toEqual({
+      type: "exit",
+      returncode: 0,
+    });
+
+    controller.abort();
+    body.destroy(new Error("canceled")); // what axios does to the body on abort
+
+    expect(await events.next()).toEqual({ done: true, value: undefined });
+  });
+
   it("exec() rejects with the signal's reason when aborted before a response", async () => {
     const controller = new AbortController();
     controller.abort();

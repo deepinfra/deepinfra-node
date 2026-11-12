@@ -6,7 +6,7 @@ export interface ExecOptions {
   /**
    * Stop waiting for the command: the pending call or loop throws the
    * signal's reason. The command keeps running in the sandbox until it exits
-   * or times out.
+   * or times out. Once the exit status has arrived, aborting has no effect.
    */
   signal?: AbortSignal;
 }
