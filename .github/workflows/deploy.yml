@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # Trusted publishing needs npm >= 11.5.1; Node 24 bundles it.
+      # npm stage publish needs npm >= 11.15.0; current Node 24 bundles it.
       - uses: actions/setup-node@v7
         with:
           node-version: '24.x'
@@ -26,7 +26,7 @@ jobs:
       - run: npm ci
       - run: npm run test
       - run: npm run build
-      - run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      # A maintainer approves the staged version (RELEASE.MD). npm logs
+      # trusted-publishing errors only at verbose level.
+      - run: npm stage publish --access=public --loglevel=verbose
 
