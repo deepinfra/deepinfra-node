@@ -230,7 +230,9 @@ export class Sandbox {
 
   /**
    * Run a command and yield its output while it runs; the last event is its
-   * exit status. The command starts when iteration starts.
+   * exit status. The command starts when iteration starts. Leaving the loop
+   * early stops the reading, not the command, which runs until it exits or
+   * reaches its timeout.
    */
   execStream(cmd: string, ...args: string[]): AsyncGenerator<ExecEvent>;
   execStream(

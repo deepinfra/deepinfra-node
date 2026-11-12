@@ -64,8 +64,10 @@ for await (const event of sb.execStream(
 ```
 
 `exec()` and `execStream()` also take an `AbortSignal` (`{ signal }`). Aborting
-makes the pending call or loop throw the signal's reason; the command itself
-keeps running in the sandbox until it exits or reaches its `timeout`.
+makes the pending call or loop throw the signal's reason. Neither aborting nor
+leaving an `execStream()` loop early (`break`, `return` or an exception) stops
+the command: it keeps running in the sandbox until it exits or reaches its
+`timeout` (60 seconds by default).
 
 Auto-terminate with `try`/`finally`:
 
